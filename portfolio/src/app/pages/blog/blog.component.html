@@ -1,0 +1,40 @@
+<!-- Сторінка блогу — вертикальна стрічка постів -->
+<section class="blog">
+  <h1 class="blog__title">{{ i18n.t('blog.title') }}</h1>
+
+  <!-- Індикатор завантаження -->
+  @if (loading) {
+    <div class="blog__loading">
+      <div class="blog__spinner"></div>
+      <p>{{ i18n.t('blog.loading') }}</p>
+    </div>
+  }
+
+  <!-- Повідомлення якщо постів немає -->
+  @if (!loading && posts.length === 0 && featuredPosts.length === 0) {
+    <div class="blog__empty">
+      <p>{{ i18n.t('blog.empty') }}</p>
+    </div>
+  }
+
+  <!-- Закріплені (featured) пости -->
+  @if (!loading && featuredPosts.length > 0) {
+    <div class="blog__featured">
+      <h2 class="blog__featured-title">📌 {{ i18n.t('blog.featured') }}</h2>
+      <div class="blog__grid">
+        @for (post of featuredPosts; track post.id) {
+          <app-post-card [post]="post" />
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Сітка карток постів -->
+  @if (!loading && posts.length > 0) {
+    <div class="blog__grid">
+      @for (post of posts; track post.id) {
+        <app-post-card [post]="post" />
+      }
+    </div>
+  }
+</section>

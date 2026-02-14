@@ -1,0 +1,159 @@
+<!-- Форма створення/редагування проєкту -->
+<section class="project-form">
+  <div class="project-form__header">
+    <a routerLink="/admin/dashboard" class="project-form__back">{{ i18n.t('projectForm.back') }}</a>
+    <h1 class="project-form__title">
+      {{ isEditMode ? i18n.t('projectForm.edit') : i18n.t('projectForm.new') }}
+    </h1>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSave()" class="project-form__form">
+    <!-- Назва проєкту -->
+    <div class="project-form__field">
+      <label class="project-form__label">{{ i18n.t('projectForm.titleLabel') }}</label>
+      <input
+        formControlName="title"
+        class="project-form__input"
+        [placeholder]="i18n.t('projectForm.titlePlaceholder')"
+      />
+    </div>
+
+    <!-- URL головного зображення -->
+    <div class="project-form__field">
+      <label class="project-form__label">{{ i18n.t('projectForm.coverLabel') }}</label>
+      <input
+        formControlName="coverImage"
+        class="project-form__input"
+        placeholder="https://example.com/image.jpg"
+      />
+    </div>
+
+    <!-- Короткий опис -->
+    <div class="project-form__field">
+      <label class="project-form__label">{{ i18n.t('projectForm.shortDescLabel') }}</label>
+      <textarea
+        formControlName="shortDescription"
+        class="project-form__textarea project-form__textarea--short"
+        [placeholder]="i18n.t('projectForm.shortDescPlaceholder')"
+        rows="3"
+      ></textarea>
+    </div>
+
+    <!-- Повний опис (Markdown) -->
+    <div class="project-form__field">
+      <label class="project-form__label">{{ i18n.t('projectForm.contentLabel') }}</label>
+      <textarea
+        formControlName="content"
+        class="project-form__textarea"
+        [placeholder]="i18n.t('projectForm.contentPlaceholder')"
+        rows="15"
+      ></textarea>
+    </div>
+
+    <!-- Посилання на демо -->
+    <div class="project-form__field">
+      <label class="project-form__label">{{ i18n.t('projectForm.demoLabel') }}</label>
+      <input
+        formControlName="liveUrl"
+        class="project-form__input"
+        placeholder="https://my-project.vercel.app"
+      />
+    </div>
+
+    <!-- Посилання на репозиторій -->
+    <div class="project-form__field">
+      <label class="project-form__label">{{ i18n.t('projectForm.repoLabel') }}</label>
+      <input
+        formControlName="repoUrl"
+        class="project-form__input"
+        placeholder="https://github.com/user/repo"
+      />
+    </div>
+
+    <!-- Автори (через кому) -->
+    <div class="project-form__field">
+      <label class="project-form__label">{{ i18n.t('projectForm.authorsLabel') }}</label>
+      <input
+        [(ngModel)]="authorsInput"
+        [ngModelOptions]="{ standalone: true }"
+        class="project-form__input"
+        placeholder="Author 1, Author 2"
+      />
+    </div>
+
+    <!-- Хештеги (через кому) -->
+    <div class="project-form__field">
+      <label class="project-form__label">{{ i18n.t('projectForm.tagsLabel') }}</label>
+      <input
+        [(ngModel)]="tagsInput"
+        [ngModelOptions]="{ standalone: true }"
+        class="project-form__input"
+        placeholder="angular, web-dev, typescript"
+      />
+    </div>
+
+    <!-- Галерея (URL по рядку) -->
+    <div class="project-form__field">
+      <label class="project-form__label">{{ i18n.t('projectForm.galleryLabel') }}</label>
+      <textarea
+        [(ngModel)]="galleryInput"
+        [ngModelOptions]="{ standalone: true }"
+        class="project-form__textarea project-form__textarea--short"
+        placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg"
+        rows="5"
+      ></textarea>
+    </div>
+
+    <!-- Мова контенту -->
+    <div class="project-form__field">
+      <label class="project-form__label">{{ i18n.t('projectForm.langLabel') }}</label>
+      <select formControlName="lang" class="project-form__input">
+        @for (lang of langs; track lang) {
+          <option [value]="lang">{{ i18n.t('lang.' + lang) }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Дата створення проєкту (необов'язково) -->
+    <div class="project-form__field">
+      <label class="project-form__label">{{ i18n.t('projectForm.projectDateLabel') }}</label>
+      <input
+        formControlName="projectDate"
+        type="date"
+        class="project-form__input"
+      />
+    </div>
+
+    <!-- Чекбокс публікації -->
+    <div class="project-form__field project-form__field--checkbox">
+      <label class="project-form__checkbox-label">
+        <input type="checkbox" formControlName="published" />
+        <span>{{ i18n.t('projectForm.publish') }}</span>
+      </label>
+    </div>
+
+    <!-- Чекбокс актуального -->
+    <div class="project-form__field project-form__field--checkbox">
+      <label class="project-form__checkbox-label">
+        <input type="checkbox" formControlName="featured" />
+        <span>{{ i18n.t('projectForm.featured') }}</span>
+      </label>
+    </div>
+
+    <!-- Кнопки дій -->
+    <div class="project-form__actions">
+      <a routerLink="/admin/dashboard" class="project-form__cancel">{{ i18n.t('projectForm.cancel') }}</a>
+      <button
+        type="submit"
+        class="project-form__save"
+        [disabled]="form.invalid || saving"
+      >
+        @if (saving) {
+          {{ i18n.t('projectForm.saving') }}
+        } @else {
+          {{ isEditMode ? i18n.t('projectForm.update') : i18n.t('projectForm.create') }}
+        }
+      </button>
+    </div>
+  </form>
+</section>

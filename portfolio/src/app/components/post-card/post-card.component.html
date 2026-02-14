@@ -1,0 +1,44 @@
+<!-- Картка поста для стрічки блогу -->
+<article class="post-card" [routerLink]="['/blog', post.id]">
+  <!-- Головне зображення поста -->
+  <div class="post-card__image-wrapper">
+    <img
+      [src]="post.coverImage"
+      [alt]="post.title"
+      class="post-card__image"
+      loading="lazy"
+    />
+  </div>
+
+  <div class="post-card__body">
+    <!-- Дата та автори -->
+    <div class="post-card__meta">
+      <time class="post-card__date">{{ post.createdAt | date:'dd.MM.yyyy' }}</time>
+      @if (post.authors.length > 0) {
+        <span class="post-card__authors">
+          {{ post.authors.join(', ') }}
+        </span>
+      }
+    </div>
+
+    <!-- Назва поста -->
+    <h3 class="post-card__title">{{ post.title }}</h3>
+
+    <!-- Короткий опис -->
+    <p class="post-card__description">{{ post.shortDescription }}</p>
+
+    <!-- Хештеги -->
+    <div class="post-card__tags">
+      @for (tag of post.tags; track tag) {
+        <a
+          class="post-card__tag"
+          [routerLink]="['/search']"
+          [queryParams]="{ tag: tag }"
+          (click)="$event.stopPropagation()"
+        >
+          #{{ tag }}
+        </a>
+      }
+    </div>
+  </div>
+</article>

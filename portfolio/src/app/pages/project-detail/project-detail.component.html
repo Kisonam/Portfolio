@@ -1,0 +1,105 @@
+<!-- Сторінка повного перегляду проєкту -->
+<section class="project-detail">
+  <!-- Індикатор завантаження -->
+  @if (loading) {
+    <div class="project-detail__loading">
+      <div class="project-detail__spinner"></div>
+      <p>{{ i18n.t('project.loading') }}</p>
+    </div>
+  }
+
+  <!-- Проєкт не знайдено -->
+  @if (!loading && !project) {
+    <div class="project-detail__not-found">
+      <h2>{{ i18n.t('project.notFound') }}</h2>
+      <a routerLink="/projects" class="project-detail__back">{{ i18n.t('project.backToProjects') }}</a>
+    </div>
+  }
+
+  <!-- Контент проєкту -->
+  @if (project) {
+    <article class="project-detail__article">
+      <!-- Кнопка "назад" -->
+      <a routerLink="/projects" class="project-detail__back">{{ i18n.t('project.back') }}</a>
+
+      <!-- Головне зображення -->
+      <div class="project-detail__cover">
+        <img [src]="project.coverImage" [alt]="project.title" />
+      </div>
+
+      <!-- Заголовок -->
+      <h1 class="project-detail__title">{{ project.title }}</h1>
+
+      <!-- Мета-інформація -->
+      <div class="project-detail__meta">
+        <time>{{ project.createdAt | date:'dd MMMM yyyy' }}</time>
+        @if (project.authors.length > 0) {
+          <span>•</span>
+          <span>{{ project.authors.join(', ') }}</span>
+        }
+      </div>
+
+      <!-- Посилання на демо та репозиторій -->
+      <div class="project-detail__links">
+        @if (project.liveUrl) {
+          <a [href]="project.liveUrl" target="_blank" class="project-detail__link project-detail__link--live">
+            {{ i18n.t('project.demo') }}
+          </a>
+        }
+        @if (project.repoUrl) {
+          <a [href]="project.repoUrl" target="_blank" class="project-detail__link project-detail__link--repo">
+            {{ i18n.t('project.repo') }}
+          </a>
+        }
+      </div>
+
+      <!-- Хештеги -->
+      <div class="project-detail__tags">
+        @for (tag of project.tags; track tag) {
+          <a
+            class="project-detail__tag"
+            [routerLink]="['/search']"
+            [queryParams]="{ tag: tag }"
+          >
+            #{{ tag }}
+          </a>
+        }
+      </div>
+
+      <!-- Повний опис проєкту -->
+      <div class="project-detail__content" [innerHTML]="renderedContent"></div>
+
+      <!-- Галерея додаткових фото -->
+      @if (project.gallery && project.gallery.length > 0) {
+        <div class="project-detail__gallery">
+          <h2 class="project-detail__gallery-title">{{ i18n.t('project.gallery') }}</h2>
+
+          <!-- Слайдер -->
+          <div class="project-detail__slider">
+            <button class="project-detail__slider-btn" (click)="prevImage()">‹</button>
+
+            <div class="project-detail__slider-image">
+              <img
+                [src]="project.gallery[currentImageIndex]"
+                [alt]="project.title + ' - фото ' + (currentImageIndex + 1)"
+              />
+            </div>
+
+            <button class="project-detail__slider-btn" (click)="nextImage()">›</button>
+          </div>
+
+          <!-- Індикатори (точки) -->
+          <div class="project-detail__dots">
+            @for (img of project.gallery; track $index; let i = $index) {
+              <button
+                class="project-detail__dot"
+                [class.project-detail__dot--active]="i === currentImageIndex"
+                (click)="goToImage(i)"
+              ></button>
+            }
+          </div>
+        </div>
+      }
+    </article>
+  }
+</section>

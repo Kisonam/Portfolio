@@ -1,0 +1,43 @@
+<!-- Сторінка проєктів — горизонтальна галерея зі scroll-snap -->
+<section class="projects">
+  <h1 class="projects__title">{{ i18n.t('projects.title') }}</h1>
+
+  <!-- Індикатор завантаження -->
+  @if (loading) {
+    <div class="projects__loading">
+      <div class="projects__spinner"></div>
+      <p>{{ i18n.t('projects.loading') }}</p>
+    </div>
+  }
+
+  <!-- Порожній стан -->
+  @if (!loading && projects.length === 0 && featuredProjects.length === 0) {
+    <div class="projects__empty">
+      <p>{{ i18n.t('projects.empty') }}</p>
+    </div>
+  }
+
+  <!-- Закріплені (featured) проєкти -->
+  @if (!loading && featuredProjects.length > 0) {
+    <div class="projects__featured">
+      <h2 class="projects__featured-title">📌 {{ i18n.t('projects.featured') }}</h2>
+      <div class="projects__gallery">
+        @for (project of featuredProjects; track project.id) {
+          <app-project-card [project]="project" />
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Горизонтальна галерея з scroll-snap -->
+  @if (!loading && projects.length > 0) {
+    <div class="projects__gallery">
+      @for (project of projects; track project.id) {
+        <app-project-card [project]="project" />
+      }
+    </div>
+
+    <!-- Підказка для скролу -->
+    <p class="projects__hint">{{ i18n.t('projects.hint') }}</p>
+  }
+</section>

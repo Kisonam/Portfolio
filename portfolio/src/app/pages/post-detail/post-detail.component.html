@@ -1,0 +1,59 @@
+<!-- Сторінка повного перегляду поста -->
+<section class="post-detail">
+  <!-- Індикатор завантаження -->
+  @if (loading) {
+    <div class="post-detail__loading">
+      <div class="post-detail__spinner"></div>
+      <p>{{ i18n.t('post.loading') }}</p>
+    </div>
+  }
+
+  <!-- Пост не знайдено -->
+  @if (!loading && !post) {
+    <div class="post-detail__not-found">
+      <h2>{{ i18n.t('post.notFound') }}</h2>
+      <a routerLink="/blog" class="post-detail__back">{{ i18n.t('post.backToBlog') }}</a>
+    </div>
+  }
+
+  <!-- Контент поста -->
+  @if (post) {
+    <article class="post-detail__article">
+      <!-- Кнопка "назад" -->
+      <a routerLink="/blog" class="post-detail__back">{{ i18n.t('post.back') }}</a>
+
+      <!-- Головне зображення -->
+      <div class="post-detail__cover">
+        <img [src]="post.coverImage" [alt]="post.title" />
+      </div>
+
+      <!-- Заголовок -->
+      <h1 class="post-detail__title">{{ post.title }}</h1>
+
+      <!-- Мета-інформація -->
+      <div class="post-detail__meta">
+        <time>{{ post.createdAt | date:'dd MMMM yyyy' }}</time>
+        @if (post.authors.length > 0) {
+          <span>•</span>
+          <span>{{ post.authors.join(', ') }}</span>
+        }
+      </div>
+
+      <!-- Хештеги -->
+      <div class="post-detail__tags">
+        @for (tag of post.tags; track tag) {
+          <a
+            class="post-detail__tag"
+            [routerLink]="['/search']"
+            [queryParams]="{ tag: tag }"
+          >
+            #{{ tag }}
+          </a>
+        }
+      </div>
+
+      <!-- Повний текст поста (рендериться з Markdown) -->
+      <div class="post-detail__content" [innerHTML]="renderedContent"></div>
+    </article>
+  }
+</section>

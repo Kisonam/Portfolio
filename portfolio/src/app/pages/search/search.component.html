@@ -1,0 +1,50 @@
+<!-- Сторінка результатів фільтрації за хештегом -->
+<section class="search">
+  <div class="search__header">
+    <a routerLink="/" class="search__back">{{ i18n.t('search.back') }}</a>
+    <h1 class="search__title">
+      {{ i18n.t('search.resultsFor') }} <span class="search__tag">#{{ currentTag }}</span>
+    </h1>
+  </div>
+
+  <!-- Індикатор завантаження -->
+  @if (loading) {
+    <div class="search__loading">
+      <div class="search__spinner"></div>
+      <p>{{ i18n.t('search.loading') }}</p>
+    </div>
+  }
+
+  @if (!loading) {
+    <!-- Порожній результат -->
+    @if (posts.length === 0 && projects.length === 0) {
+      <div class="search__empty">
+        <p>{{ i18n.t('search.empty') }} <strong>#{{ currentTag }}</strong></p>
+      </div>
+    }
+
+    <!-- Секція постів -->
+    @if (posts.length > 0) {
+      <div class="search__section">
+        <h2 class="search__section-title">{{ i18n.t('search.posts') }} ({{ posts.length }})</h2>
+        <div class="search__grid">
+          @for (post of posts; track post.id) {
+            <app-post-card [post]="post" />
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Секція проєктів -->
+    @if (projects.length > 0) {
+      <div class="search__section">
+        <h2 class="search__section-title">{{ i18n.t('search.projects') }} ({{ projects.length }})</h2>
+        <div class="search__projects">
+          @for (project of projects; track project.id) {
+            <app-project-card [project]="project" />
+          }
+        </div>
+      </div>
+    }
+  }
+</section>

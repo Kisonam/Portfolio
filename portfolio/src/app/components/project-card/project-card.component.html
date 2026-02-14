@@ -1,0 +1,37 @@
+<!-- Картка проєкту для горизонтальної галереї -->
+<article class="project-card" [routerLink]="['/projects', project.id]">
+  <!-- Головне зображення проєкту -->
+  <div class="project-card__image-wrapper">
+    <img
+      [src]="project.coverImage"
+      [alt]="project.title"
+      class="project-card__image"
+      loading="lazy"
+    />
+  </div>
+
+  <!-- Контент картки (накладається поверх зображення) -->
+  <div class="project-card__overlay">
+    <div class="project-card__body">
+      <!-- Назва проєкту -->
+      <h3 class="project-card__title">{{ project.title }}</h3>
+
+      <!-- Короткий опис -->
+      <p class="project-card__description">{{ project.shortDescription }}</p>
+
+      <!-- Хештеги -->
+      <div class="project-card__tags">
+        @for (tag of project.tags; track tag) {
+          <a
+            class="project-card__tag"
+            [routerLink]="['/search']"
+            [queryParams]="{ tag: tag }"
+            (click)="$event.stopPropagation()"
+          >
+            #{{ tag }}
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,104 @@
+/* Стилі картки проєкту (горизонтальна галерея) */
+.project-card {
+  /* Картка займає ~80% ширини екрана для scroll-snap ефекту, але не більше 900px */
+  min-width: 80vw;
+  max-width: 900px;
+  height: 450px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  /* Точка фіксації для scroll-snap */
+  scroll-snap-align: center;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    min-width: 90vw;
+    max-width: 90vw;
+    height: 350px;
+  }
+
+  /* Зображення на весь розмір картки */
+  &__image-wrapper {
+    position: absolute;
+    inset: 0;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+  }
+
+  &:hover &__image {
+    transform: scale(1.05);
+  }
+
+  /* Градієнтний оверлей знизу для тексту */
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.85) 0%,
+      rgba(0, 0, 0, 0.3) 50%,
+      transparent 100%
+    );
+    display: flex;
+    align-items: flex-end;
+    transition: background 0.3s;
+  }
+
+  &:hover &__overlay {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.4) 60%,
+      transparent 100%
+    );
+  }
+
+  /* Контент поверх зображення */
+  &__body {
+    padding: 2rem;
+    width: 100%;
+  }
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #f0f6fc;
+    margin-bottom: 0.5rem;
+  }
+
+  &__description {
+    font-size: 1rem;
+    color: #c9d1d9;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    max-width: 600px;
+  }
+
+  /* Хештеги */
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__tag {
+    font-size: 0.8rem;
+    color: #58a6ff;
+    text-decoration: none;
+    padding: 3px 10px;
+    background: rgba(56, 139, 253, 0.15);
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba(56, 139, 253, 0.35);
+    }
+  }
+}

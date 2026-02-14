@@ -1,0 +1,61 @@
+<!-- Шапка сайту з навігацією -->
+<header class="header">
+  <div class="header__container">
+    <!-- Логотип / назва сайту -->
+    <a routerLink="/" class="header__logo">Portfolio</a>
+
+    <!-- Кнопка мобільного меню (гамбургер) -->
+    <button
+      class="header__burger"
+      (click)="toggleMenu()"
+      [class.header__burger--active]="menuOpen"
+      aria-label="Toggle menu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Навігаційне меню -->
+    <nav class="header__nav" [class.header__nav--open]="menuOpen">
+      <a
+        routerLink="/"
+        routerLinkActive="header__link--active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="header__link"
+        (click)="menuOpen = false"
+      >
+        {{ i18n.t('nav.home') }}
+      </a>
+      <a
+        routerLink="/blog"
+        routerLinkActive="header__link--active"
+        class="header__link"
+        (click)="menuOpen = false"
+      >
+        {{ i18n.t('nav.blog') }}
+      </a>
+      <a
+        routerLink="/projects"
+        routerLinkActive="header__link--active"
+        class="header__link"
+        (click)="menuOpen = false"
+      >
+        {{ i18n.t('nav.projects') }}
+      </a>
+
+      <!-- Перемикач мов -->
+      <div class="header__lang">
+        @for (lang of langs; track lang) {
+          <button
+            class="header__lang-btn"
+            [class.header__lang-btn--active]="i18n.currentLang === lang"
+            (click)="setLang(lang)"
+          >
+            {{ i18n.t('lang.' + lang) }}
+          </button>
+        }
+      </div>
+    </nav>
+  </div>
+</header>

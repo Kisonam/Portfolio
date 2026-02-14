@@ -1,0 +1,132 @@
+<!-- Адмін-дашборд -->
+<section class="dashboard">
+  <!-- Шапка адмін-панелі -->
+  <div class="dashboard__header">
+    <h1 class="dashboard__title">{{ i18n.t('admin.title') }}</h1>
+    <button class="dashboard__logout" (click)="logout()">{{ i18n.t('admin.logout') }}</button>
+  </div>
+
+  <!-- Вкладки: Пости / Проєкти -->
+  <div class="dashboard__tabs">
+    <button
+      class="dashboard__tab"
+      [class.dashboard__tab--active]="activeTab === 'posts'"
+      (click)="activeTab = 'posts'"
+    >
+      {{ i18n.t('admin.posts') }} ({{ posts.length }})
+    </button>
+    <button
+      class="dashboard__tab"
+      [class.dashboard__tab--active]="activeTab === 'projects'"
+      (click)="activeTab = 'projects'"
+    >
+      {{ i18n.t('admin.projects') }} ({{ projects.length }})
+    </button>
+  </div>
+
+  <!-- Вкладка: Пости -->
+  @if (activeTab === 'posts') {
+    <div class="dashboard__section">
+      <div class="dashboard__section-header">
+        <h2>{{ i18n.t('admin.posts') }}</h2>
+        <a routerLink="/admin/post/new" class="dashboard__add-btn">{{ i18n.t('admin.newPost') }}</a>
+      </div>
+
+      <!-- Таблиця постів -->
+      <div class="dashboard__table-wrapper">
+        <table class="dashboard__table">
+          <thead>
+            <tr>
+              <th>{{ i18n.t('admin.name') }}</th>
+              <th>{{ i18n.t('admin.status') }}</th>
+              <th>{{ i18n.t('admin.date') }}</th>
+              <th>{{ i18n.t('admin.actions') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (post of posts; track post.id) {
+              <tr>
+                <td class="dashboard__cell-title">{{ post.title }}</td>
+                <td>
+                  <span
+                    class="dashboard__badge"
+                    [class.dashboard__badge--published]="post.published"
+                    [class.dashboard__badge--draft]="!post.published"
+                  >
+                    {{ post.published ? i18n.t('admin.published') : i18n.t('admin.draft') }}
+                  </span>
+                </td>
+                <td class="dashboard__cell-date">{{ post.createdAt | date:'dd.MM.yyyy' }}</td>
+                <td class="dashboard__cell-actions">
+                  <a [routerLink]="['/admin/post', post.id]" class="dashboard__action-btn dashboard__action-btn--edit">
+                    {{ i18n.t('admin.edit') }}
+                  </a>
+                  <button class="dashboard__action-btn dashboard__action-btn--delete" (click)="deletePost(post)">
+                    {{ i18n.t('admin.delete') }}
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        @if (posts.length === 0) {
+          <p class="dashboard__empty">{{ i18n.t('admin.noPosts') }}</p>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Вкладка: Проєкти -->
+  @if (activeTab === 'projects') {
+    <div class="dashboard__section">
+      <div class="dashboard__section-header">
+        <h2>{{ i18n.t('admin.projects') }}</h2>
+        <a routerLink="/admin/project/new" class="dashboard__add-btn">{{ i18n.t('admin.newProject') }}</a>
+      </div>
+
+      <!-- Таблиця проєктів -->
+      <div class="dashboard__table-wrapper">
+        <table class="dashboard__table">
+          <thead>
+            <tr>
+              <th>{{ i18n.t('admin.name') }}</th>
+              <th>{{ i18n.t('admin.status') }}</th>
+              <th>{{ i18n.t('admin.date') }}</th>
+              <th>{{ i18n.t('admin.actions') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (project of projects; track project.id) {
+              <tr>
+                <td class="dashboard__cell-title">{{ project.title }}</td>
+                <td>
+                  <span
+                    class="dashboard__badge"
+                    [class.dashboard__badge--published]="project.published"
+                    [class.dashboard__badge--draft]="!project.published"
+                  >
+                    {{ project.published ? i18n.t('admin.published') : i18n.t('admin.draft') }}
+                  </span>
+                </td>
+                <td class="dashboard__cell-date">{{ project.createdAt | date:'dd.MM.yyyy' }}</td>
+                <td class="dashboard__cell-actions">
+                  <a [routerLink]="['/admin/project', project.id]" class="dashboard__action-btn dashboard__action-btn--edit">
+                    {{ i18n.t('admin.edit') }}
+                  </a>
+                  <button class="dashboard__action-btn dashboard__action-btn--delete" (click)="deleteProject(project)">
+                    {{ i18n.t('admin.delete') }}
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        @if (projects.length === 0) {
+          <p class="dashboard__empty">{{ i18n.t('admin.noProjects') }}</p>
+        }
+      </div>
+    </div>
+  }
+</section>

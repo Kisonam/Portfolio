@@ -1,0 +1,11 @@
+/* Стилі кореневого компонента */
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+main {
+  /* Відступ зверху для фіксованої шапки */
+  padding-top: 60px;
+  min-height: calc(100vh - 60px);
+}

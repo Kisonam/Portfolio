@@ -1,0 +1,118 @@
+<!-- Календар активності (Activity Heatmap) -->
+<div class="heatmap">
+  <!-- Заголовок + вибір року -->
+  <div class="heatmap__header">
+    <h3 class="heatmap__title">{{ i18n.t('heatmap.title') }}</h3>
+    <div class="heatmap__years">
+      @for (year of availableYears; track year) {
+        <button
+          class="heatmap__year-btn"
+          [class.heatmap__year-btn--active]="year === selectedYear"
+          (click)="loadYear(year)"
+        >
+          {{ year }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="heatmap__wrapper">
+    <!-- SVG-сітка календаря -->
+    <svg
+      class="heatmap__svg"
+      [attr.width]="weeks.length * (cellSize + cellGap) + 40"
+      [attr.height]="7 * (cellSize + cellGap) + 30"
+    >
+      <!-- Підписи днів тижня -->
+      <text x="0" [attr.y]="2 * (cellSize + cellGap) + 10" class="heatmap__day-label">{{ i18n.t('heatmap.mon') }}</text>
+      <text x="0" [attr.y]="4 * (cellSize + cellGap) + 10" class="heatmap__day-label">{{ i18n.t('heatmap.wed') }}</text>
+      <text x="0" [attr.y]="6 * (cellSize + cellGap) + 10" class="heatmap__day-label">{{ i18n.t('heatmap.fri') }}</text>
+
+      <!-- Квадрати днів -->
+      @for (week of weeks; track $index; let colIdx = $index) {
+        @for (day of week; track $index; let rowIdx = $index) {
+          <rect
+            [attr.x]="colIdx * (cellSize + cellGap) + 30"
+            [attr.y]="rowIdx * (cellSize + cellGap)"
+            [attr.width]="cellSize"
+            [attr.height]="cellSize"
+            [attr.fill]="getCellColor(day.level)"
+            [attr.stroke]="selectedDay?.date === day.date ? '#f0f6fc' : 'none'"
+            [attr.stroke-width]="selectedDay?.date === day.date ? 2 : 0"
+            rx="2"
+            ry="2"
+            class="heatmap__cell"
+            (mouseenter)="showTooltip($event, day)"
+            (mouseleave)="hideTooltip()"
+            (click)="selectDay(day)"
+          />
+        }
+      }
+
+      <!-- Підписи місяців -->
+      @for (label of monthLabels; track label.monthIndex) {
+        <text
+          [attr.x]="label.col * (cellSize + cellGap) + 30"
+          [attr.y]="7 * (cellSize + cellGap) + 20"
+          class="heatmap__month-label"
+        >
+          {{ months[label.monthIndex] }}
+        </text>
+      }
+    </svg>
+  </div>
+
+  <!-- Легенда рівнів активності -->
+  <div class="heatmap__legend">
+    <span class="heatmap__legend-text">{{ i18n.t('heatmap.less') }}</span>
+    @for (level of [0, 1, 2, 3, 4]; track level) {
+      <span
+        class="heatmap__legend-cell"
+        [style.background]="getCellColor(level)"
+      ></span>
+    }
+    <span class="heatmap__legend-text">{{ i18n.t('heatmap.more') }}</span>
+  </div>
+
+  <!-- Панель деталей обраного дня -->
+  @if (selectedDay) {
+    <div class="heatmap__day-details">
+      <h4 class="heatmap__day-details-title">
+        {{ i18n.t('heatmap.dayActivity') }} {{ selectedDay.date }}
+      </h4>
+      @if (selectedDay.events && selectedDay.events.length > 0) {
+        <ul class="heatmap__day-events">
+          @for (event of selectedDay.events; track $index) {
+            <li class="heatmap__day-event">
+              <span class="heatmap__event-icon">
+                {{ event.type === 'created' ? '✨' : '✏️' }}
+              </span>
+              <span class="heatmap__event-type">
+                {{ event.type === 'created' ? i18n.t('heatmap.created') : i18n.t('heatmap.updated') }}
+              </span>
+              <span class="heatmap__event-content-type">
+                {{ event.contentType === 'post' ? i18n.t('heatmap.post') : i18n.t('heatmap.project') }}:
+              </span>
+              <a [routerLink]="getContentLink(event.contentType, event.id)" class="heatmap__event-link">
+                {{ event.title }}
+              </a>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="heatmap__day-empty">{{ i18n.t('heatmap.noActivity') }}</p>
+      }
+    </div>
+  }
+
+  <!-- Тултіп при наведенні -->
+  @if (tooltip.show) {
+    <div
+      class="heatmap__tooltip"
+      [style.left.px]="tooltip.x"
+      [style.top.px]="tooltip.y"
+    >
+      {{ tooltip.text }}
+    </div>
+  }
+</div>

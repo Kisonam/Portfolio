@@ -1,0 +1,66 @@
+<!-- Головна сторінка -->
+<section class="home">
+  <!-- Привітальний блок -->
+  <div class="home__hero">
+    <h1 class="home__title">{{ i18n.t('home.title') }}</h1>
+    <p class="home__subtitle">
+      {{ i18n.t('home.subtitle') }}
+    </p>
+  </div>
+
+  <!-- Календар активності -->
+  <app-activity-heatmap />
+
+  <!-- Актуальне (Featured) -->
+  @if (featuredPosts.length > 0 || featuredProjects.length > 0) {
+    <div class="home__featured">
+      <h2 class="home__section-title">{{ i18n.t('home.featured') }}</h2>
+
+      <!-- Актуальні пости -->
+      @if (featuredPosts.length > 0) {
+        <h3 class="home__subsection-title">{{ i18n.t('home.featuredPosts') }}</h3>
+        <div class="home__featured-grid">
+          @for (post of featuredPosts; track post.id) {
+            <app-post-card [post]="post" />
+          }
+        </div>
+      }
+
+      <!-- Актуальні проєкти -->
+      @if (featuredProjects.length > 0) {
+        <h3 class="home__subsection-title">{{ i18n.t('home.featuredProjects') }}</h3>
+        <div class="home__featured-grid">
+          @for (project of featuredProjects; track project.id) {
+            <app-project-card [project]="project" />
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Остання активність -->
+  @if (lastActivity.length > 0) {
+    <div class="home__last-activity">
+      <h2 class="home__section-title">{{ i18n.t('home.lastActivity') }}</h2>
+      <ul class="home__activity-list">
+        @for (item of lastActivity; track $index) {
+          <li class="home__activity-item">
+            <span class="home__activity-icon">
+              {{ item.event.type === 'created' ? '✨' : '✏️' }}
+            </span>
+            <span class="home__activity-type">
+              {{ item.event.type === 'created' ? i18n.t('heatmap.created') : i18n.t('heatmap.updated') }}
+            </span>
+            <span class="home__activity-content-type">
+              {{ item.event.contentType === 'post' ? i18n.t('heatmap.post') : i18n.t('heatmap.project') }}:
+            </span>
+            <a [routerLink]="item.event.contentType === 'post' ? '/blog/' + item.event.id : '/projects/' + item.event.id" class="home__activity-link">
+              {{ item.event.title }}
+            </a>
+            <span class="home__activity-date">{{ item.date }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</section>

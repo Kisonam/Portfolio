@@ -1,0 +1,117 @@
+<!-- Форма створення/редагування поста -->
+<section class="post-form">
+  <div class="post-form__header">
+    <a routerLink="/admin/dashboard" class="post-form__back">{{ i18n.t('postForm.back') }}</a>
+    <h1 class="post-form__title">
+      {{ isEditMode ? i18n.t('postForm.edit') : i18n.t('postForm.new') }}
+    </h1>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSave()" class="post-form__form">
+    <!-- Назва поста -->
+    <div class="post-form__field">
+      <label class="post-form__label">{{ i18n.t('postForm.titleLabel') }}</label>
+      <input
+        formControlName="title"
+        class="post-form__input"
+        [placeholder]="i18n.t('postForm.titlePlaceholder')"
+      />
+    </div>
+
+    <!-- URL головного зображення -->
+    <div class="post-form__field">
+      <label class="post-form__label">{{ i18n.t('postForm.coverLabel') }}</label>
+      <input
+        formControlName="coverImage"
+        class="post-form__input"
+        placeholder="https://example.com/image.jpg"
+      />
+    </div>
+
+    <!-- Короткий опис -->
+    <div class="post-form__field">
+      <label class="post-form__label">{{ i18n.t('postForm.shortDescLabel') }}</label>
+      <textarea
+        formControlName="shortDescription"
+        class="post-form__textarea post-form__textarea--short"
+        [placeholder]="i18n.t('postForm.shortDescPlaceholder')"
+        rows="3"
+      ></textarea>
+    </div>
+
+    <!-- Повний текст (Markdown) -->
+    <div class="post-form__field">
+      <label class="post-form__label">{{ i18n.t('postForm.contentLabel') }}</label>
+      <textarea
+        formControlName="content"
+        class="post-form__textarea"
+        [placeholder]="i18n.t('postForm.contentPlaceholder')"
+        rows="15"
+      ></textarea>
+    </div>
+
+    <!-- Автори (через кому) -->
+    <div class="post-form__field">
+      <label class="post-form__label">{{ i18n.t('postForm.authorsLabel') }}</label>
+      <input
+        [(ngModel)]="authorsInput"
+        [ngModelOptions]="{ standalone: true }"
+        class="post-form__input"
+        placeholder="Author 1, Author 2"
+      />
+    </div>
+
+    <!-- Хештеги (через кому) -->
+    <div class="post-form__field">
+      <label class="post-form__label">{{ i18n.t('postForm.tagsLabel') }}</label>
+      <input
+        [(ngModel)]="tagsInput"
+        [ngModelOptions]="{ standalone: true }"
+        class="post-form__input"
+        placeholder="angular, web-dev, typescript"
+      />
+    </div>
+
+    <!-- Мова контенту -->
+    <div class="post-form__field">
+      <label class="post-form__label">{{ i18n.t('postForm.langLabel') }}</label>
+      <select formControlName="lang" class="post-form__input">
+        @for (lang of langs; track lang) {
+          <option [value]="lang">{{ i18n.t('lang.' + lang) }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Чекбокс публікації -->
+    <div class="post-form__field post-form__field--checkbox">
+      <label class="post-form__checkbox-label">
+        <input type="checkbox" formControlName="published" />
+        <span>{{ i18n.t('postForm.publish') }}</span>
+      </label>
+    </div>
+
+    <!-- Чекбокс актуального -->
+    <div class="post-form__field post-form__field--checkbox">
+      <label class="post-form__checkbox-label">
+        <input type="checkbox" formControlName="featured" />
+        <span>{{ i18n.t('postForm.featured') }}</span>
+      </label>
+    </div>
+
+    <!-- Кнопки дій -->
+    <div class="post-form__actions">
+      <a routerLink="/admin/dashboard" class="post-form__cancel">{{ i18n.t('postForm.cancel') }}</a>
+      <button
+        type="submit"
+        class="post-form__save"
+        [disabled]="form.invalid || saving"
+      >
+        @if (saving) {
+          {{ i18n.t('postForm.saving') }}
+        } @else {
+          {{ isEditMode ? i18n.t('postForm.update') : i18n.t('postForm.create') }}
+        }
+      </button>
+    </div>
+  </form>
+</section>

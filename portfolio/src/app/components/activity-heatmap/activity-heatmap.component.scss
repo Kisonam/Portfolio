@@ -1,0 +1,173 @@
+/* Стилі календаря активності */
+.heatmap {
+  padding: 1.5rem;
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 8px;
+
+  /* Заголовок + вибір року */
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__title {
+    color: #f0f6fc;
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  /* Кнопки вибору року */
+  &__years {
+    display: flex;
+    gap: 4px;
+  }
+
+  &__year-btn {
+    background: transparent;
+    border: 1px solid #30363d;
+    color: #8b949e;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s;
+
+    &:hover {
+      border-color: #58a6ff;
+      color: #f0f6fc;
+    }
+
+    &--active {
+      background: #21262d;
+      border-color: #58a6ff;
+      color: #58a6ff;
+    }
+  }
+
+  &__wrapper {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  /* SVG-квадрати днів */
+  &__cell {
+    cursor: pointer;
+    transition: opacity 0.15s;
+
+    &:hover {
+      opacity: 0.8;
+      stroke: #f0f6fc;
+      stroke-width: 1;
+    }
+  }
+
+  /* Підписи днів тижня */
+  &__day-label {
+    fill: #8b949e;
+    font-size: 10px;
+  }
+
+  /* Підписи місяців */
+  &__month-label {
+    fill: #8b949e;
+    font-size: 10px;
+  }
+
+  /* Легенда */
+  &__legend {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 0.75rem;
+    justify-content: flex-end;
+  }
+
+  &__legend-text {
+    color: #8b949e;
+    font-size: 0.75rem;
+  }
+
+  &__legend-cell {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+  }
+
+  /* Панель деталей обраного дня */
+  &__day-details {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 6px;
+  }
+
+  &__day-details-title {
+    color: #f0f6fc;
+    font-size: 0.875rem;
+    margin: 0 0 0.75rem;
+  }
+
+  &__day-events {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__day-event {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: #c9d1d9;
+  }
+
+  &__event-icon {
+    font-size: 0.9rem;
+  }
+
+  &__event-type {
+    color: #8b949e;
+  }
+
+  &__event-content-type {
+    color: #8b949e;
+  }
+
+  &__event-link {
+    color: #58a6ff;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__day-empty {
+    color: #8b949e;
+    font-size: 0.8rem;
+    margin: 0;
+  }
+
+  /* Тултіп */
+  &__tooltip {
+    position: fixed;
+    background: #1c2128;
+    color: #f0f6fc;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    pointer-events: none;
+    z-index: 1000;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+}

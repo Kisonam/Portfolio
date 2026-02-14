@@ -1,0 +1,111 @@
+/* Стилі головної сторінки */
+.home {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+
+  /* Привітальний блок */
+  &__hero {
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #f0f6fc;
+    margin-bottom: 0.75rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.75rem;
+    }
+  }
+
+  &__subtitle {
+    font-size: 1.15rem;
+    color: #8b949e;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Заголовки секцій */
+  &__section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #f0f6fc;
+    margin: 0 0 1rem;
+  }
+
+  &__subsection-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #c9d1d9;
+    margin: 0.75rem 0 0.75rem;
+  }
+
+  /* Секція актуального */
+  &__featured {
+    margin-top: 2.5rem;
+  }
+
+  &__featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Секція останньої активності */
+  &__last-activity {
+    margin-top: 2.5rem;
+    padding: 1.5rem;
+    background: #0d1117;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+  }
+
+  &__activity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  &__activity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: #c9d1d9;
+    flex-wrap: wrap;
+  }
+
+  &__activity-icon {
+    font-size: 1rem;
+  }
+
+  &__activity-type {
+    color: #8b949e;
+  }
+
+  &__activity-content-type {
+    color: #8b949e;
+  }
+
+  &__activity-link {
+    color: #58a6ff;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__activity-date {
+    color: #484f58;
+    font-size: 0.75rem;
+    margin-left: auto;
+  }
+}
