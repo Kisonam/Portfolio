@@ -42,15 +42,19 @@ export class DashboardComponent implements OnInit {
     this.projectService.getAllProjects().subscribe(projects => this.projects = projects);
   }
 
-  /** Отримати назву з translations */
+  /** Отримати назву з translations або старого поля title */
   getTitle(item: Post | Project): string {
-    if (!item.translations) {
-      return 'Untitled';
+    // Спочатку перевіряємо translations
+    if (item.translations) {
+      const title = item.translations.uk?.title ||
+                    item.translations.pl?.title ||
+                    item.translations.en?.title;
+      if (title) return title;
     }
-    return item.translations.uk?.title ||
-           item.translations.pl?.title ||
-           item.translations.en?.title ||
-           'Untitled';
+
+    // Fallback на старе поле title для зворотної сумісності
+    const oldItem = item as any;
+    return oldItem.title || 'Untitled';
   }
 
   /** Вихід з акаунту адміна */

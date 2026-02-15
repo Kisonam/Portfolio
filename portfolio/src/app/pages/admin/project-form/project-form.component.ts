@@ -78,13 +78,17 @@ export class ProjectFormComponent implements OnInit {
   private loadProject(id: string) {
     this.projectService.getProjectById(id).subscribe(project => {
       if (project) {
-        // Тимчасово використовуємо українську мову для завантаження
-        // TODO: Оновити форму для мультимовного контенту
+        // Fallback на старі поля для зворотної сумісності
+        const oldProject = project as any;
+        const title = project.translations?.uk?.title || oldProject.title || '';
+        const shortDescription = project.translations?.uk?.shortDescription || oldProject.shortDescription || '';
+        const content = project.translations?.uk?.content || oldProject.content || '';
+
         this.form.patchValue({
-          title: project.translations.uk?.title || '',
+          title,
           coverImage: project.coverImage,
-          shortDescription: project.translations.uk?.shortDescription || '',
-          content: project.translations.uk?.content || '',
+          shortDescription,
+          content,
           liveUrl: project.liveUrl || '',
           repoUrl: project.repoUrl || '',
           published: project.published,
@@ -92,9 +96,9 @@ export class ProjectFormComponent implements OnInit {
           lang: 'uk',
           projectDate: project.projectDate || ''
         });
-        this.tagsInput = project.tags.join(', ');
-        this.authorsInput = project.authors.join(', ');
-        this.galleryInput = project.gallery.join('\n');
+        this.tagsInput = project.tags?.join(', ') || '';
+        this.authorsInput = project.authors?.join(', ') || '';
+        this.galleryInput = project.gallery?.join('\n') || '';
       }
     });
   }

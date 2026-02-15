@@ -89,30 +89,33 @@ export class PostFormComponent implements OnInit {
   private loadPost(id: string) {
     this.postService.getPostById(id).subscribe(post => {
       if (post) {
+        // Fallback на старі поля для зворотної сумісності
+        const oldPost = post as any;
+
         this.form.patchValue({
           coverImage: post.coverImage,
-          titleUk: post.translations.uk?.title || '',
-          shortDescriptionUk: post.translations.uk?.shortDescription || '',
-          contentUk: post.translations.uk?.content || '',
-          titlePl: post.translations.pl?.title || '',
-          shortDescriptionPl: post.translations.pl?.shortDescription || '',
-          contentPl: post.translations.pl?.content || '',
-          titleEn: post.translations.en?.title || '',
-          shortDescriptionEn: post.translations.en?.shortDescription || '',
-          contentEn: post.translations.en?.content || '',
+          titleUk: post.translations?.uk?.title || oldPost.title || '',
+          shortDescriptionUk: post.translations?.uk?.shortDescription || oldPost.shortDescription || '',
+          contentUk: post.translations?.uk?.content || oldPost.content || '',
+          titlePl: post.translations?.pl?.title || '',
+          shortDescriptionPl: post.translations?.pl?.shortDescription || '',
+          contentPl: post.translations?.pl?.content || '',
+          titleEn: post.translations?.en?.title || '',
+          shortDescriptionEn: post.translations?.en?.shortDescription || '',
+          contentEn: post.translations?.en?.content || '',
           published: post.published,
           featured: post.featured || false
         });
 
         // Встановлюємо вибрані мови
         this.selectedLanguages = {
-          uk: !!post.translations.uk,
-          pl: !!post.translations.pl,
-          en: !!post.translations.en
+          uk: !!post.translations?.uk || !!(oldPost.title),
+          pl: !!post.translations?.pl,
+          en: !!post.translations?.en
         };
 
-        this.tagsInput = post.tags.join(', ');
-        this.authorsInput = post.authors.join(', ');
+        this.tagsInput = post.tags?.join(', ') || '';
+        this.authorsInput = post.authors?.join(', ') || '';
       }
     });
   }
