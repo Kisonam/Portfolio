@@ -15,22 +15,30 @@ if (!fs.existsSync(envDir)) {
 
 // Функція для створення environment файлу
 function createEnvFile(isProduction) {
+  // Отримуємо значення з environment variables
+  const apiKey = process.env.apiKey || '';
+  const authDomain = process.env.authDomain || '';
+  const projectId = process.env.projectId || '';
+  const storageBucket = process.env.storageBucket || '';
+  const messagingSenderId = process.env.messagingSenderId || '';
+  const appId = process.env.appId || '';
+
   const envContent = `export const environment = {
   production: ${isProduction},
   firebaseConfig: {
-    apiKey: "${process.env.apiKey || ''}",
-    authDomain: "${process.env.authDomain || ''}",
-    projectId: "${process.env.projectId || ''}",
-    storageBucket: "${process.env.storageBucket || ''}",
-    messagingSenderId: "${process.env.messagingSenderId || ''}",
-    appId: "${process.env.appId || ''}"
+    apiKey: '${apiKey}',
+    authDomain: '${authDomain}',
+    projectId: '${projectId}',
+    storageBucket: '${storageBucket}',
+    messagingSenderId: '${messagingSenderId}',
+    appId: '${appId}'
   }
 };
 `;
 
   const fileName = isProduction ? 'environment.prod.ts' : 'environment.ts';
   const filePath = path.join(envDir, fileName);
-  
+
   fs.writeFileSync(filePath, envContent);
   console.log(`✅ Created ${fileName}`);
 }
