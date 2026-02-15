@@ -32,7 +32,7 @@
 
       <!-- Мета-інформація -->
       <div class="post-detail__meta">
-        <time>{{ post.createdAt | date:'dd MMMM yyyy' }}</time>
+        <time>{{ post.createdAt | date:'dd.MM.yyyy' }}</time>
         @if (post.authors.length > 0) {
           <span>•</span>
           <span>{{ post.authors.join(', ') }}</span>

@@ -39,7 +39,7 @@
 
       <!-- Мета-інформація -->
       <div class="project-detail__meta">
-        <time>{{ project.createdAt | date:'dd MMMM yyyy':undefined:i18n.currentLang }}</time>
+        <time>{{ project.createdAt | date:'dd.MM.yyyy' }}</time>
         @if (project.authors.length > 0) {
           <span>•</span>
           <span>{{ project.authors.join(', ') }}</span>
