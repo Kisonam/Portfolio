@@ -10,28 +10,26 @@
     />
   </div>
 
-  <!-- Контент картки (накладається поверх зображення) -->
-  <div class="project-card__overlay">
-    <div class="project-card__body">
-      <!-- Назва проєкту -->
-      <h3 class="project-card__title">{{ getTranslation().title }}</h3>
+  <!-- Контент картки (окремий блок знизу) -->
+  <div class="project-card__content">
+    <!-- Назва проєкту -->
+    <h3 class="project-card__title">{{ getTranslation().title }}</h3>
 
-      <!-- Короткий опис -->
-      <p class="project-card__description">{{ getTranslation().shortDescription }}</p>
+    <!-- Короткий опис -->
+    <p class="project-card__description">{{ getTranslation().shortDescription }}</p>
 
-      <!-- Хештеги -->
-      <div class="project-card__tags">
-        @for (tag of project.tags; track tag) {
-          <a
-            class="project-card__tag"
-            [routerLink]="['/search']"
-            [queryParams]="{ tag: tag }"
-            (click)="$event.stopPropagation()"
-          >
-            #{{ tag }}
-          </a>
-        }
-      </div>
+    <!-- Хештеги -->
+    <div class="project-card__tags">
+      @for (tag of project.tags; track tag) {
+        <a
+          class="project-card__tag"
+          [routerLink]="['/search']"
+          [queryParams]="{ tag: tag }"
+          (click)="$event.stopPropagation()"
+        >
+          #{{ tag }}
+        </a>
+      }
     </div>
   </div>
 </article>
