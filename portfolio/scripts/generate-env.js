@@ -13,15 +13,22 @@ if (!fs.existsSync(envDir)) {
   fs.mkdirSync(envDir, { recursive: true });
 }
 
+// Функція для видалення лапок з початку та кінця рядка
+function removeQuotes(str) {
+  if (!str) return '';
+  // Видаляємо подвійні та одинарні лапки з початку та кінця
+  return str.replace(/^["']|["']$/g, '');
+}
+
 // Функція для створення environment файлу
 function createEnvFile(isProduction) {
-  // Отримуємо значення з environment variables
-  const apiKey = process.env.apiKey || '';
-  const authDomain = process.env.authDomain || '';
-  const projectId = process.env.projectId || '';
-  const storageBucket = process.env.storageBucket || '';
-  const messagingSenderId = process.env.messagingSenderId || '';
-  const appId = process.env.appId || '';
+  // Отримуємо значення з environment variables та видаляємо лапки
+  const apiKey = removeQuotes(process.env.apiKey || '');
+  const authDomain = removeQuotes(process.env.authDomain || '');
+  const projectId = removeQuotes(process.env.projectId || '');
+  const storageBucket = removeQuotes(process.env.storageBucket || '');
+  const messagingSenderId = removeQuotes(process.env.messagingSenderId || '');
+  const appId = removeQuotes(process.env.appId || '');
 
   const envContent = `export const environment = {
   production: ${isProduction},
