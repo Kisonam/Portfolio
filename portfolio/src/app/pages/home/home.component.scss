@@ -54,7 +54,7 @@
     gap: 1.25rem;
     margin-bottom: 1.5rem;
 
-    // Обмежуємо розмір зображень у картках
+    // Обмежуємо розмір зображень у картках постів
     ::ng-deep app-post-card {
       .post-card__image-wrapper {
         height: 200px;
@@ -65,16 +65,11 @@
       }
     }
 
-    // Для project-card встановлюємо фіксовану висоту
+    // Для project-card використовуємо стилі з компонента
     ::ng-deep app-project-card {
       .project-card {
-        height: 300px;
         min-width: 100%;
         max-width: 100%;
-      }
-      img {
-        max-height: 300px;
-        object-fit: cover;
       }
     }
   }
