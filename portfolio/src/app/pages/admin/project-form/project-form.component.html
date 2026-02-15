@@ -8,16 +8,6 @@
   </div>
 
   <form [formGroup]="form" (ngSubmit)="onSave()" class="project-form__form">
-    <!-- Назва проєкту -->
-    <div class="project-form__field">
-      <label class="project-form__label">{{ i18n.t('projectForm.titleLabel') }}</label>
-      <input
-        formControlName="title"
-        class="project-form__input"
-        [placeholder]="i18n.t('projectForm.titlePlaceholder')"
-      />
-    </div>
-
     <!-- URL головного зображення -->
     <div class="project-form__field">
       <label class="project-form__label">{{ i18n.t('projectForm.coverLabel') }}</label>
@@ -28,27 +18,140 @@
       />
     </div>
 
-    <!-- Короткий опис -->
+    <!-- Вибір мов для заповнення -->
     <div class="project-form__field">
-      <label class="project-form__label">{{ i18n.t('projectForm.shortDescLabel') }}</label>
-      <textarea
-        formControlName="shortDescription"
-        class="project-form__textarea project-form__textarea--short"
-        [placeholder]="i18n.t('projectForm.shortDescPlaceholder')"
-        rows="3"
-      ></textarea>
+      <label class="project-form__label">{{ i18n.t('projectForm.selectLanguages') }}</label>
+      <div class="project-form__lang-checkboxes">
+        @for (lang of langs; track lang) {
+          <label class="project-form__lang-checkbox">
+            <input
+              type="checkbox"
+              [(ngModel)]="selectedLanguages[lang]"
+              [ngModelOptions]="{ standalone: true }"
+            />
+            <span>{{ i18n.t('lang.' + lang) }}</span>
+          </label>
+        }
+      </div>
     </div>
 
-    <!-- Повний опис (Markdown) -->
-    <div class="project-form__field">
-      <label class="project-form__label">{{ i18n.t('projectForm.contentLabel') }}</label>
-      <textarea
-        formControlName="content"
-        class="project-form__textarea"
-        [placeholder]="i18n.t('projectForm.contentPlaceholder')"
-        rows="15"
-      ></textarea>
+    <!-- Табби для мов -->
+    <div class="project-form__tabs">
+      @for (lang of langs; track lang) {
+        @if (selectedLanguages[lang]) {
+          <button
+            type="button"
+            class="project-form__tab"
+            [class.project-form__tab--active]="activeTab === lang"
+            (click)="switchTab(lang)"
+          >
+            {{ i18n.t('lang.' + lang) }}
+          </button>
+        }
+      }
     </div>
+
+    <!-- Контент для української -->
+    @if (activeTab === 'uk' && selectedLanguages['uk']) {
+      <div class="project-form__tab-content">
+        <div class="project-form__field">
+          <label class="project-form__label">{{ i18n.t('projectForm.titleLabel') }} (UA)</label>
+          <input
+            formControlName="titleUk"
+            class="project-form__input"
+            [placeholder]="i18n.t('projectForm.titlePlaceholder')"
+          />
+        </div>
+
+        <div class="project-form__field">
+          <label class="project-form__label">{{ i18n.t('projectForm.shortDescLabel') }} (UA)</label>
+          <textarea
+            formControlName="shortDescriptionUk"
+            class="project-form__textarea project-form__textarea--short"
+            [placeholder]="i18n.t('projectForm.shortDescPlaceholder')"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="project-form__field">
+          <label class="project-form__label">{{ i18n.t('projectForm.contentLabel') }} (UA)</label>
+          <textarea
+            formControlName="contentUk"
+            class="project-form__textarea"
+            [placeholder]="i18n.t('projectForm.contentPlaceholder')"
+            rows="15"
+          ></textarea>
+        </div>
+      </div>
+    }
+
+    <!-- Контент для польської -->
+    @if (activeTab === 'pl' && selectedLanguages['pl']) {
+      <div class="project-form__tab-content">
+        <div class="project-form__field">
+          <label class="project-form__label">{{ i18n.t('projectForm.titleLabel') }} (PL)</label>
+          <input
+            formControlName="titlePl"
+            class="project-form__input"
+            [placeholder]="i18n.t('projectForm.titlePlaceholder')"
+          />
+        </div>
+
+        <div class="project-form__field">
+          <label class="project-form__label">{{ i18n.t('projectForm.shortDescLabel') }} (PL)</label>
+          <textarea
+            formControlName="shortDescriptionPl"
+            class="project-form__textarea project-form__textarea--short"
+            [placeholder]="i18n.t('projectForm.shortDescPlaceholder')"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="project-form__field">
+          <label class="project-form__label">{{ i18n.t('projectForm.contentLabel') }} (PL)</label>
+          <textarea
+            formControlName="contentPl"
+            class="project-form__textarea"
+            [placeholder]="i18n.t('projectForm.contentPlaceholder')"
+            rows="15"
+          ></textarea>
+        </div>
+      </div>
+    }
+
+    <!-- Контент для англійської -->
+    @if (activeTab === 'en' && selectedLanguages['en']) {
+      <div class="project-form__tab-content">
+        <div class="project-form__field">
+          <label class="project-form__label">{{ i18n.t('projectForm.titleLabel') }} (EN)</label>
+          <input
+            formControlName="titleEn"
+            class="project-form__input"
+            [placeholder]="i18n.t('projectForm.titlePlaceholder')"
+          />
+        </div>
+
+        <div class="project-form__field">
+          <label class="project-form__label">{{ i18n.t('projectForm.shortDescLabel') }} (EN)</label>
+          <textarea
+            formControlName="shortDescriptionEn"
+            class="project-form__textarea project-form__textarea--short"
+            [placeholder]="i18n.t('projectForm.shortDescPlaceholder')"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="project-form__field">
+          <label class="project-form__label">{{ i18n.t('projectForm.contentLabel') }} (EN)</label>
+          <textarea
+            formControlName="contentEn"
+            class="project-form__textarea"
+            [placeholder]="i18n.t('projectForm.contentPlaceholder')"
+            rows="15"
+          ></textarea>
+        </div>
+      </div>
+    }
 
     <!-- Посилання на демо -->
     <div class="project-form__field">
@@ -102,16 +205,6 @@
         placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg"
         rows="5"
       ></textarea>
-    </div>
-
-    <!-- Мова контенту -->
-    <div class="project-form__field">
-      <label class="project-form__label">{{ i18n.t('projectForm.langLabel') }}</label>
-      <select formControlName="lang" class="project-form__input">
-        @for (lang of langs; track lang) {
-          <option [value]="lang">{{ i18n.t('lang.' + lang) }}</option>
-        }
-      </select>
     </div>
 
     <!-- Дата створення проєкту (необов'язково) -->

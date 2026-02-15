@@ -27,6 +27,9 @@ export class ProjectFormComponent implements OnInit {
   /** Доступні мови контенту */
   langs: Lang[] = ['uk', 'pl', 'en'];
 
+  /** Активна вкладка мови для редагування */
+  activeTab: Lang = 'uk';
+
   /** Reactive форма проєкту */
   form!: FormGroup;
 
@@ -48,18 +51,34 @@ export class ProjectFormComponent implements OnInit {
   /** Рядок для введення URL галереї (через кому або по рядку) */
   galleryInput = '';
 
+  /** Вибрані мови для заповнення */
+  selectedLanguages: { [key: string]: boolean } = {
+    uk: true,
+    pl: false,
+    en: false
+  };
+
   ngOnInit() {
-    /** Ініціалізуємо форму з валідацією */
+    /** Ініціалізуємо форму з валідацією для кожної мови */
     this.form = this.fb.group({
-      title: ['', Validators.required],
       coverImage: ['', Validators.required],
-      shortDescription: ['', Validators.required],
-      content: ['', Validators.required],
+      // Українська
+      titleUk: [''],
+      shortDescriptionUk: [''],
+      contentUk: [''],
+      // Польська
+      titlePl: [''],
+      shortDescriptionPl: [''],
+      contentPl: [''],
+      // Англійська
+      titleEn: [''],
+      shortDescriptionEn: [''],
+      contentEn: [''],
+      // Інші поля
       liveUrl: [''],
       repoUrl: [''],
       published: [false],
       featured: [false],
-      lang: ['uk'],
       projectDate: ['']
     });
 
@@ -80,22 +99,32 @@ export class ProjectFormComponent implements OnInit {
       if (project) {
         // Fallback на старі поля для зворотної сумісності
         const oldProject = project as any;
-        const title = project.translations?.uk?.title || oldProject.title || '';
-        const shortDescription = project.translations?.uk?.shortDescription || oldProject.shortDescription || '';
-        const content = project.translations?.uk?.content || oldProject.content || '';
 
         this.form.patchValue({
-          title,
           coverImage: project.coverImage,
-          shortDescription,
-          content,
+          titleUk: project.translations?.uk?.title || oldProject.title || '',
+          shortDescriptionUk: project.translations?.uk?.shortDescription || oldProject.shortDescription || '',
+          contentUk: project.translations?.uk?.content || oldProject.content || '',
+          titlePl: project.translations?.pl?.title || '',
+          shortDescriptionPl: project.translations?.pl?.shortDescription || '',
+          contentPl: project.translations?.pl?.content || '',
+          titleEn: project.translations?.en?.title || '',
+          shortDescriptionEn: project.translations?.en?.shortDescription || '',
+          contentEn: project.translations?.en?.content || '',
           liveUrl: project.liveUrl || '',
           repoUrl: project.repoUrl || '',
           published: project.published,
           featured: project.featured || false,
-          lang: 'uk',
           projectDate: project.projectDate || ''
         });
+
+        // Встановлюємо вибрані мови
+        this.selectedLanguages = {
+          uk: !!project.translations?.uk || !!(oldProject.title),
+          pl: !!project.translations?.pl,
+          en: !!project.translations?.en
+        };
+
         this.tagsInput = project.tags?.join(', ') || '';
         this.authorsInput = project.authors?.join(', ') || '';
         this.galleryInput = project.gallery?.join('\n') || '';
@@ -104,11 +133,17 @@ export class ProjectFormComponent implements OnInit {
   }
 
   /**
+   * Перемикання вкладки мови
+   */
+  switchTab(lang: Lang) {
+    this.activeTab = lang;
+  }
+
+  /**
    * Обробник збереження форми.
    * Створює новий проєкт або оновлює існуючий.
    */
   async onSave() {
-    if (this.form.invalid) return;
     this.saving = true;
 
     /** Парсимо теги, авторів та галерею з рядків */
@@ -128,11 +163,56 @@ export class ProjectFormComponent implements OnInit {
       .map(url => url.trim())
       .filter(url => url.length > 0);
 
+    /** Збираємо переклади */
+    const translations: any = {};
+    const availableLanguages: string[] = [];
+
+    if (this.selectedLanguages['uk'] && this.form.value.titleUk) {
+      translations.uk = {
+        title: this.form.value.titleUk,
+        shortDescription: this.form.value.shortDescriptionUk,
+        content: this.form.value.contentUk
+      };
+      availableLanguages.push('uk');
+    }
+
+    if (this.selectedLanguages['pl'] && this.form.value.titlePl) {
+      translations.pl = {
+        title: this.form.value.titlePl,
+        shortDescription: this.form.value.shortDescriptionPl,
+        content: this.form.value.contentPl
+      };
+      availableLanguages.push('pl');
+    }
+
+    if (this.selectedLanguages['en'] && this.form.value.titleEn) {
+      translations.en = {
+        title: this.form.value.titleEn,
+        shortDescription: this.form.value.shortDescriptionEn,
+        content: this.form.value.contentEn
+      };
+      availableLanguages.push('en');
+    }
+
+    // Перевірка: хоча б одна мова має бути заповнена
+    if (availableLanguages.length === 0) {
+      alert('Заповніть хоча б одну мову!');
+      this.saving = false;
+      return;
+    }
+
     const projectData = {
-      ...this.form.value,
+      coverImage: this.form.value.coverImage,
+      translations,
+      availableLanguages,
       tags,
       authors,
-      gallery
+      gallery,
+      liveUrl: this.form.value.liveUrl,
+      repoUrl: this.form.value.repoUrl,
+      published: this.form.value.published,
+      featured: this.form.value.featured,
+      projectDate: this.form.value.projectDate
     };
 
     try {

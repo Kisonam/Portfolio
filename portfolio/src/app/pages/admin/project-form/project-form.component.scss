@@ -91,6 +91,62 @@
     }
   }
 
+  /* Чекбокси вибору мов */
+  &__lang-checkboxes {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  &__lang-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #c9d1d9;
+    cursor: pointer;
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #238636;
+    }
+  }
+
+  /* Вкладки мов */
+  &__tabs {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 1px solid #21262d;
+    margin-bottom: 1rem;
+  }
+
+  &__tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #8b949e;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      color: #c9d1d9;
+    }
+
+    &--active {
+      color: #58a6ff;
+      border-bottom-color: #58a6ff;
+    }
+  }
+
+  &__tab-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
   &__actions {
     display: flex;
     justify-content: flex-end;
