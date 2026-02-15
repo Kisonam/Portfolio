@@ -1,4 +1,18 @@
 /**
+ * Переклади контенту для однієї мови
+ */
+export interface ProjectTranslation {
+  /** Назва проєкту */
+  title: string;
+
+  /** Короткий опис проєкту для картки */
+  shortDescription: string;
+
+  /** Повний опис проєкту (підтримує Markdown або HTML) */
+  content: string;
+}
+
+/**
  * Інтерфейс для проєкту.
  * Описує структуру документа в колекції 'projects' у Firestore.
  */
@@ -6,17 +20,15 @@ export interface Project {
   /** Унікальний ідентифікатор документа у Firestore */
   id?: string;
 
-  /** Назва проєкту */
-  title: string;
-
   /** URL головного зображення проєкту */
   coverImage: string;
 
-  /** Короткий опис проєкту для картки */
-  shortDescription: string;
-
-  /** Повний опис проєкту (підтримує Markdown або HTML) */
-  content: string;
+  /** Переклади контенту на різні мови */
+  translations: {
+    uk?: ProjectTranslation;
+    pl?: ProjectTranslation;
+    en?: ProjectTranslation;
+  };
 
   /** Масив URL додаткових фото для галереї */
   gallery: string[];
@@ -42,12 +54,20 @@ export interface Project {
   /** Чи опублікований проєкт */
   published: boolean;
 
-  /** Мова контенту проєкту (uk, pl, en) */
-  lang?: string;
+  /** Доступні мови для цього проєкту */
+  availableLanguages: string[];
 
   /** Чи є проєкт актуальним (закріпленим) */
   featured?: boolean;
 
-  /** Дата створення проєкту (день/місяць/рік, необов'язково) */
+  /** Дата проєкту (коли був створений/завершений) */
   projectDate?: string;
+
+  // Старі поля для зворотної сумісності (deprecated)
+  /** @deprecated Використовуйте translations.uk.title */
+  title?: string;
+  /** @deprecated Використовуйте translations.uk.shortDescription */
+  shortDescription?: string;
+  /** @deprecated Використовуйте translations.uk.content */
+  content?: string;
 }

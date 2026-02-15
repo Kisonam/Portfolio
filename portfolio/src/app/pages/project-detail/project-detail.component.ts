@@ -42,11 +42,53 @@ export class ProjectDetailComponent implements OnInit {
       this.projectService.getProjectById(id).subscribe(project => {
         this.project = project;
         if (project) {
-          this.renderedContent = marked(project.content) as string;
+          const translation = this.getTranslation(project);
+          this.renderedContent = marked(translation.content) as string;
         }
         this.loading = false;
       });
+
+      /** Підписуємось на зміну мови для реактивного оновлення контенту */
+      this.i18n.lang$.subscribe(() => {
+        if (this.project) {
+          const translation = this.getTranslation(this.project);
+          this.renderedContent = marked(translation.content) as string;
+        }
+      });
     }
+  }
+
+  /**
+   * Отримує переклад контенту відповідно до обраної мови інтерфейсу.
+   */
+  getTranslation(project: Project) {
+    if (!project.translations) {
+      return {
+        title: project.title || 'Untitled',
+        shortDescription: project.shortDescription || '',
+        content: project.content || ''
+      };
+    }
+
+    const currentLang = this.i18n.currentLang;
+
+    if (project.translations[currentLang]) {
+      return project.translations[currentLang]!;
+    }
+
+    if (project.availableLanguages && project.availableLanguages.length > 0) {
+      const firstAvailableLang = project.availableLanguages[0];
+      return project.translations[firstAvailableLang as 'uk' | 'pl' | 'en']!;
+    }
+
+    return project.translations.uk ||
+           project.translations.pl ||
+           project.translations.en ||
+           {
+             title: project.title || 'Untitled',
+             shortDescription: project.shortDescription || '',
+             content: project.content || ''
+           };
   }
 
   /** Перейти до наступного фото в галереї */

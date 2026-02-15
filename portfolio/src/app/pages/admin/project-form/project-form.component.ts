@@ -78,16 +78,18 @@ export class ProjectFormComponent implements OnInit {
   private loadProject(id: string) {
     this.projectService.getProjectById(id).subscribe(project => {
       if (project) {
+        // Тимчасово використовуємо українську мову для завантаження
+        // TODO: Оновити форму для мультимовного контенту
         this.form.patchValue({
-          title: project.title,
+          title: project.translations.uk?.title || '',
           coverImage: project.coverImage,
-          shortDescription: project.shortDescription,
-          content: project.content,
+          shortDescription: project.translations.uk?.shortDescription || '',
+          content: project.translations.uk?.content || '',
           liveUrl: project.liveUrl || '',
           repoUrl: project.repoUrl || '',
           published: project.published,
           featured: project.featured || false,
-          lang: project.lang || 'uk',
+          lang: 'uk',
           projectDate: project.projectDate || ''
         });
         this.tagsInput = project.tags.join(', ');

@@ -46,7 +46,7 @@
           <tbody>
             @for (post of posts; track post.id) {
               <tr>
-                <td class="dashboard__cell-title">{{ post.title }}</td>
+                <td class="dashboard__cell-title">{{ getTitle(post) }}</td>
                 <td>
                   <span
                     class="dashboard__badge"
@@ -99,7 +99,7 @@
           <tbody>
             @for (project of projects; track project.id) {
               <tr>
-                <td class="dashboard__cell-title">{{ project.title }}</td>
+                <td class="dashboard__cell-title">{{ getTitle(project) }}</td>
                 <td>
                   <span
                     class="dashboard__badge"

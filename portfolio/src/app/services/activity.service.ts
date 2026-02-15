@@ -59,14 +59,28 @@ export class ActivityService {
           dateEvents.get(key)!.push(event);
         };
 
+        /** Функція для отримання title з translations */
+        const getTitle = (item: Post | Project): string => {
+          // Перевірка на існування translations (для сумісності зі старими даними)
+          if (!item.translations) {
+            return 'Untitled';
+          }
+          return item.translations.uk?.title ||
+                 item.translations.pl?.title ||
+                 item.translations.en?.title ||
+                 'Untitled';
+        };
+
         /** Проходимо по всіх постах і проєктах */
         posts.forEach(post => {
-          addEvent(post.createdAt, { type: 'created', contentType: 'post', title: post.title, id: post.id || '' });
-          addEvent(post.updatedAt, { type: 'updated', contentType: 'post', title: post.title, id: post.id || '' });
+          const title = getTitle(post);
+          addEvent(post.createdAt, { type: 'created', contentType: 'post', title, id: post.id || '' });
+          addEvent(post.updatedAt, { type: 'updated', contentType: 'post', title, id: post.id || '' });
         });
         projects.forEach(project => {
-          addEvent(project.createdAt, { type: 'created', contentType: 'project', title: project.title, id: project.id || '' });
-          addEvent(project.updatedAt, { type: 'updated', contentType: 'project', title: project.title, id: project.id || '' });
+          const title = getTitle(project);
+          addEvent(project.createdAt, { type: 'created', contentType: 'project', title, id: project.id || '' });
+          addEvent(project.updatedAt, { type: 'updated', contentType: 'project', title, id: project.id || '' });
         });
 
         /** Генеруємо масив днів за вказаний рік */
@@ -110,18 +124,30 @@ export class ActivityService {
         const formatDate = (d: Date) =>
           `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 
+        const getTitle = (item: Post | Project): string => {
+          if (!item.translations) {
+            return 'Untitled';
+          }
+          return item.translations.uk?.title ||
+                 item.translations.pl?.title ||
+                 item.translations.en?.title ||
+                 'Untitled';
+        };
+
         posts.forEach(post => {
+          const title = getTitle(post);
           const created = toDate(post.createdAt);
-          if (created) allEvents.push({ date: created, dateStr: formatDate(created), event: { type: 'created', contentType: 'post', title: post.title, id: post.id || '' } });
+          if (created) allEvents.push({ date: created, dateStr: formatDate(created), event: { type: 'created', contentType: 'post', title, id: post.id || '' } });
           const updated = toDate(post.updatedAt);
-          if (updated) allEvents.push({ date: updated, dateStr: formatDate(updated), event: { type: 'updated', contentType: 'post', title: post.title, id: post.id || '' } });
+          if (updated) allEvents.push({ date: updated, dateStr: formatDate(updated), event: { type: 'updated', contentType: 'post', title, id: post.id || '' } });
         });
 
         projects.forEach(project => {
+          const title = getTitle(project);
           const created = toDate(project.createdAt);
-          if (created) allEvents.push({ date: created, dateStr: formatDate(created), event: { type: 'created', contentType: 'project', title: project.title, id: project.id || '' } });
+          if (created) allEvents.push({ date: created, dateStr: formatDate(created), event: { type: 'created', contentType: 'project', title, id: project.id || '' } });
           const updated = toDate(project.updatedAt);
-          if (updated) allEvents.push({ date: updated, dateStr: formatDate(updated), event: { type: 'updated', contentType: 'project', title: project.title, id: project.id || '' } });
+          if (updated) allEvents.push({ date: updated, dateStr: formatDate(updated), event: { type: 'updated', contentType: 'project', title, id: project.id || '' } });
         });
 
         /** Сортуємо за датою (найновіші першими) та беремо 5 останніх */

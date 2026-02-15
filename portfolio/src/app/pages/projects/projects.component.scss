@@ -13,6 +13,22 @@
     margin-right: auto;
   }
 
+  /* Секція закріплених проєктів */
+  &__featured {
+    margin-bottom: 3rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__featured-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #f0f6fc;
+    margin-bottom: 1.5rem;
+    padding: 0 1.5rem;
+  }
+
   /**
    * Горизонтальна галерея з CSS scroll-snap.
    * overflow-x: auto — дозволяє горизонтальний скрол.
@@ -21,7 +37,7 @@
   &__gallery {
     display: flex;
     gap: 1.5rem;
-    padding: 0 10vw;
+    padding: 0 1.5rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;

@@ -1,9 +1,9 @@
 /* Стилі картки проєкту (горизонтальна галерея) */
 .project-card {
-  /* Картка займає ~80% ширини екрана для scroll-snap ефекту, але не більше 900px */
-  min-width: 80vw;
-  max-width: 900px;
-  height: 450px;
+  /* Картка займає фіксовану ширину для компактності */
+  min-width: 600px;
+  max-width: 600px;
+  height: 350px; /* Фіксована висота */
   position: relative;
   border-radius: 12px;
   overflow: hidden;
@@ -13,9 +13,9 @@
   flex-shrink: 0;
 
   @media (max-width: 768px) {
-    min-width: 90vw;
-    max-width: 90vw;
-    height: 350px;
+    min-width: 85vw;
+    max-width: 85vw;
+    height: 300px;
   }
 
   /* Зображення на весь розмір картки */
@@ -78,6 +78,13 @@
     line-height: 1.5;
     margin-bottom: 1rem;
     max-width: 600px;
+    /* Обрізаємо текст до 2 рядків */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* Хештеги */

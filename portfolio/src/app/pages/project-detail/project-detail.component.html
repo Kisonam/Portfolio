@@ -24,11 +24,11 @@
 
       <!-- Головне зображення -->
       <div class="project-detail__cover">
-        <img [src]="project.coverImage" [alt]="project.title" />
+        <img [src]="project.coverImage" [alt]="getTranslation(project).title" />
       </div>
 
       <!-- Заголовок -->
-      <h1 class="project-detail__title">{{ project.title }}</h1>
+      <h1 class="project-detail__title">{{ getTranslation(project).title }}</h1>
 
       <!-- Мета-інформація -->
       <div class="project-detail__meta">
@@ -81,7 +81,7 @@
             <div class="project-detail__slider-image">
               <img
                 [src]="project.gallery[currentImageIndex]"
-                [alt]="project.title + ' - фото ' + (currentImageIndex + 1)"
+                [alt]="getTranslation(project).title + ' - фото ' + (currentImageIndex + 1)"
               />
             </div>
 

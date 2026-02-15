@@ -44,16 +44,29 @@
         {{ i18n.t('nav.projects') }}
       </a>
 
-      <!-- Перемикач мов -->
-      <div class="header__lang">
-        @for (lang of langs; track lang) {
-          <button
-            class="header__lang-btn"
-            [class.header__lang-btn--active]="i18n.currentLang === lang"
-            (click)="setLang(lang)"
-          >
-            {{ i18n.t('lang.' + lang) }}
-          </button>
+      <!-- Dropdown перемикач мов -->
+      <div class="header__lang-dropdown">
+        <button
+          class="header__lang-toggle"
+          (click)="toggleLangDropdown()"
+          [class.header__lang-toggle--open]="langDropdownOpen"
+        >
+          {{ i18n.t('lang.' + i18n.currentLang) }}
+          <span class="header__lang-arrow">▼</span>
+        </button>
+
+        @if (langDropdownOpen) {
+          <div class="header__lang-menu">
+            @for (lang of langs; track lang) {
+              <button
+                class="header__lang-option"
+                [class.header__lang-option--active]="i18n.currentLang === lang"
+                (click)="setLang(lang)"
+              >
+                {{ i18n.t('lang.' + lang) }}
+              </button>
+            }
+          </div>
         }
       </div>
     </nav>

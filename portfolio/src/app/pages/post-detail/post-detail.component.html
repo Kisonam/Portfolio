@@ -24,11 +24,11 @@
 
       <!-- Головне зображення -->
       <div class="post-detail__cover">
-        <img [src]="post.coverImage" [alt]="post.title" />
+        <img [src]="post.coverImage" [alt]="getTranslation(post).title" />
       </div>
 
       <!-- Заголовок -->
-      <h1 class="post-detail__title">{{ post.title }}</h1>
+      <h1 class="post-detail__title">{{ getTranslation(post).title }}</h1>
 
       <!-- Мета-інформація -->
       <div class="post-detail__meta">

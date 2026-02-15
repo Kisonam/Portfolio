@@ -24,6 +24,9 @@ export class HeaderComponent {
   /** Стан мобільного меню (відкрите/закрите) */
   menuOpen = false;
 
+  /** Стан dropdown меню мов (відкрите/закрите) */
+  langDropdownOpen = false;
+
   /** Доступні мови */
   langs: Lang[] = ['uk', 'pl', 'en'];
 
@@ -32,8 +35,14 @@ export class HeaderComponent {
     this.menuOpen = !this.menuOpen;
   }
 
+  /** Перемикач dropdown меню мов */
+  toggleLangDropdown() {
+    this.langDropdownOpen = !this.langDropdownOpen;
+  }
+
   /** Змінити мову інтерфейсу */
   setLang(lang: Lang) {
     this.i18n.setLang(lang);
+    this.langDropdownOpen = false; // Закриваємо dropdown після вибору
   }
 }

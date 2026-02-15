@@ -8,16 +8,6 @@
   </div>
 
   <form [formGroup]="form" (ngSubmit)="onSave()" class="post-form__form">
-    <!-- Назва поста -->
-    <div class="post-form__field">
-      <label class="post-form__label">{{ i18n.t('postForm.titleLabel') }}</label>
-      <input
-        formControlName="title"
-        class="post-form__input"
-        [placeholder]="i18n.t('postForm.titlePlaceholder')"
-      />
-    </div>
-
     <!-- URL головного зображення -->
     <div class="post-form__field">
       <label class="post-form__label">{{ i18n.t('postForm.coverLabel') }}</label>
@@ -28,27 +18,140 @@
       />
     </div>
 
-    <!-- Короткий опис -->
+    <!-- Вибір мов для заповнення -->
     <div class="post-form__field">
-      <label class="post-form__label">{{ i18n.t('postForm.shortDescLabel') }}</label>
-      <textarea
-        formControlName="shortDescription"
-        class="post-form__textarea post-form__textarea--short"
-        [placeholder]="i18n.t('postForm.shortDescPlaceholder')"
-        rows="3"
-      ></textarea>
+      <label class="post-form__label">{{ i18n.t('postForm.selectLanguages') }}</label>
+      <div class="post-form__lang-checkboxes">
+        @for (lang of langs; track lang) {
+          <label class="post-form__lang-checkbox">
+            <input
+              type="checkbox"
+              [(ngModel)]="selectedLanguages[lang]"
+              [ngModelOptions]="{ standalone: true }"
+            />
+            <span>{{ i18n.t('lang.' + lang) }}</span>
+          </label>
+        }
+      </div>
     </div>
 
-    <!-- Повний текст (Markdown) -->
-    <div class="post-form__field">
-      <label class="post-form__label">{{ i18n.t('postForm.contentLabel') }}</label>
-      <textarea
-        formControlName="content"
-        class="post-form__textarea"
-        [placeholder]="i18n.t('postForm.contentPlaceholder')"
-        rows="15"
-      ></textarea>
+    <!-- Табби для мов -->
+    <div class="post-form__tabs">
+      @for (lang of langs; track lang) {
+        @if (selectedLanguages[lang]) {
+          <button
+            type="button"
+            class="post-form__tab"
+            [class.post-form__tab--active]="activeTab === lang"
+            (click)="switchTab(lang)"
+          >
+            {{ i18n.t('lang.' + lang) }}
+          </button>
+        }
+      }
     </div>
+
+    <!-- Контент для української -->
+    @if (activeTab === 'uk' && selectedLanguages['uk']) {
+      <div class="post-form__tab-content">
+        <div class="post-form__field">
+          <label class="post-form__label">{{ i18n.t('postForm.titleLabel') }} (UA)</label>
+          <input
+            formControlName="titleUk"
+            class="post-form__input"
+            [placeholder]="i18n.t('postForm.titlePlaceholder')"
+          />
+        </div>
+
+        <div class="post-form__field">
+          <label class="post-form__label">{{ i18n.t('postForm.shortDescLabel') }} (UA)</label>
+          <textarea
+            formControlName="shortDescriptionUk"
+            class="post-form__textarea post-form__textarea--short"
+            [placeholder]="i18n.t('postForm.shortDescPlaceholder')"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="post-form__field">
+          <label class="post-form__label">{{ i18n.t('postForm.contentLabel') }} (UA)</label>
+          <textarea
+            formControlName="contentUk"
+            class="post-form__textarea"
+            [placeholder]="i18n.t('postForm.contentPlaceholder')"
+            rows="15"
+          ></textarea>
+        </div>
+      </div>
+    }
+
+    <!-- Контент для польської -->
+    @if (activeTab === 'pl' && selectedLanguages['pl']) {
+      <div class="post-form__tab-content">
+        <div class="post-form__field">
+          <label class="post-form__label">{{ i18n.t('postForm.titleLabel') }} (PL)</label>
+          <input
+            formControlName="titlePl"
+            class="post-form__input"
+            [placeholder]="i18n.t('postForm.titlePlaceholder')"
+          />
+        </div>
+
+        <div class="post-form__field">
+          <label class="post-form__label">{{ i18n.t('postForm.shortDescLabel') }} (PL)</label>
+          <textarea
+            formControlName="shortDescriptionPl"
+            class="post-form__textarea post-form__textarea--short"
+            [placeholder]="i18n.t('postForm.shortDescPlaceholder')"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="post-form__field">
+          <label class="post-form__label">{{ i18n.t('postForm.contentLabel') }} (PL)</label>
+          <textarea
+            formControlName="contentPl"
+            class="post-form__textarea"
+            [placeholder]="i18n.t('postForm.contentPlaceholder')"
+            rows="15"
+          ></textarea>
+        </div>
+      </div>
+    }
+
+    <!-- Контент для англійської -->
+    @if (activeTab === 'en' && selectedLanguages['en']) {
+      <div class="post-form__tab-content">
+        <div class="post-form__field">
+          <label class="post-form__label">{{ i18n.t('postForm.titleLabel') }} (EN)</label>
+          <input
+            formControlName="titleEn"
+            class="post-form__input"
+            [placeholder]="i18n.t('postForm.titlePlaceholder')"
+          />
+        </div>
+
+        <div class="post-form__field">
+          <label class="post-form__label">{{ i18n.t('postForm.shortDescLabel') }} (EN)</label>
+          <textarea
+            formControlName="shortDescriptionEn"
+            class="post-form__textarea post-form__textarea--short"
+            [placeholder]="i18n.t('postForm.shortDescPlaceholder')"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="post-form__field">
+          <label class="post-form__label">{{ i18n.t('postForm.contentLabel') }} (EN)</label>
+          <textarea
+            formControlName="contentEn"
+            class="post-form__textarea"
+            [placeholder]="i18n.t('postForm.contentPlaceholder')"
+            rows="15"
+          ></textarea>
+        </div>
+      </div>
+    }
 
     <!-- Автори (через кому) -->
     <div class="post-form__field">
@@ -70,16 +173,6 @@
         class="post-form__input"
         placeholder="angular, web-dev, typescript"
       />
-    </div>
-
-    <!-- Мова контенту -->
-    <div class="post-form__field">
-      <label class="post-form__label">{{ i18n.t('postForm.langLabel') }}</label>
-      <select formControlName="lang" class="post-form__input">
-        @for (lang of langs; track lang) {
-          <option [value]="lang">{{ i18n.t('lang.' + lang) }}</option>
-        }
-      </select>
     </div>
 
     <!-- Чекбокс публікації -->
@@ -104,7 +197,7 @@
       <button
         type="submit"
         class="post-form__save"
-        [disabled]="form.invalid || saving"
+        [disabled]="saving"
       >
         @if (saving) {
           {{ i18n.t('postForm.saving') }}

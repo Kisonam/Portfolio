@@ -7,8 +7,7 @@ import { I18nService, Lang } from '../../../services/i18n.service';
 
 /**
  * Компонент форми створення/редагування поста.
- * Використовує ReactiveForms для валідації та керування даними.
- * Якщо в URL є :id — режим редагування, інакше — створення нового поста.
+ * Підтримує мультимовний контент — можна заповнити переклади на uk, pl, en.
  */
 @Component({
   selector: 'app-post-form',
@@ -27,8 +26,8 @@ export class PostFormComponent implements OnInit {
   /** Доступні мови контенту */
   langs: Lang[] = ['uk', 'pl', 'en'];
 
-  /** Обрана мова контенту */
-  selectedLang: Lang = 'uk';
+  /** Активна вкладка мови для редагування */
+  activeTab: Lang = 'uk';
 
   /** Reactive форма поста */
   form!: FormGroup;
@@ -48,16 +47,32 @@ export class PostFormComponent implements OnInit {
   /** Рядок для введення авторів (через кому) */
   authorsInput = '';
 
+  /** Вибрані мови для заповнення */
+  selectedLanguages: { [key: string]: boolean } = {
+    uk: true,
+    pl: false,
+    en: false
+  };
+
   ngOnInit() {
-    /** Ініціалізуємо форму з валідацією */
+    /** Ініціалізуємо форму з валідацією для кожної мови */
     this.form = this.fb.group({
-      title: ['', Validators.required],
       coverImage: ['', Validators.required],
-      shortDescription: ['', Validators.required],
-      content: ['', Validators.required],
+      // Українська
+      titleUk: [''],
+      shortDescriptionUk: [''],
+      contentUk: [''],
+      // Польська
+      titlePl: [''],
+      shortDescriptionPl: [''],
+      contentPl: [''],
+      // Англійська
+      titleEn: [''],
+      shortDescriptionEn: [''],
+      contentEn: [''],
+      // Інші поля
       published: [false],
-      featured: [false],
-      lang: ['uk']
+      featured: [false]
     });
 
     /** Перевіряємо, чи є ID в URL (режим редагування) */
@@ -70,21 +85,32 @@ export class PostFormComponent implements OnInit {
 
   /**
    * Завантажує дані поста для редагування.
-   * @param id — ідентифікатор поста
    */
   private loadPost(id: string) {
     this.postService.getPostById(id).subscribe(post => {
       if (post) {
         this.form.patchValue({
-          title: post.title,
           coverImage: post.coverImage,
-          shortDescription: post.shortDescription,
-          content: post.content,
+          titleUk: post.translations.uk?.title || '',
+          shortDescriptionUk: post.translations.uk?.shortDescription || '',
+          contentUk: post.translations.uk?.content || '',
+          titlePl: post.translations.pl?.title || '',
+          shortDescriptionPl: post.translations.pl?.shortDescription || '',
+          contentPl: post.translations.pl?.content || '',
+          titleEn: post.translations.en?.title || '',
+          shortDescriptionEn: post.translations.en?.shortDescription || '',
+          contentEn: post.translations.en?.content || '',
           published: post.published,
-          featured: post.featured || false,
-          lang: post.lang || 'uk'
+          featured: post.featured || false
         });
-        this.selectedLang = (post.lang as Lang) || 'uk';
+
+        // Встановлюємо вибрані мови
+        this.selectedLanguages = {
+          uk: !!post.translations.uk,
+          pl: !!post.translations.pl,
+          en: !!post.translations.en
+        };
+
         this.tagsInput = post.tags.join(', ');
         this.authorsInput = post.authors.join(', ');
       }
@@ -92,14 +118,19 @@ export class PostFormComponent implements OnInit {
   }
 
   /**
+   * Перемикання вкладки мови
+   */
+  switchTab(lang: Lang) {
+    this.activeTab = lang;
+  }
+
+  /**
    * Обробник збереження форми.
-   * Створює новий пост або оновлює існуючий.
    */
   async onSave() {
-    if (this.form.invalid) return;
     this.saving = true;
 
-    /** Парсимо теги та авторів з рядків (розділені комою) */
+    /** Парсимо теги та авторів */
     const tags = this.tagsInput
       .split(',')
       .map(t => t.trim().toLowerCase())
@@ -110,21 +141,60 @@ export class PostFormComponent implements OnInit {
       .map(a => a.trim())
       .filter(a => a.length > 0);
 
+    /** Збираємо переклади */
+    const translations: any = {};
+    const availableLanguages: string[] = [];
+
+    if (this.selectedLanguages['uk'] && this.form.value.titleUk) {
+      translations.uk = {
+        title: this.form.value.titleUk,
+        shortDescription: this.form.value.shortDescriptionUk,
+        content: this.form.value.contentUk
+      };
+      availableLanguages.push('uk');
+    }
+
+    if (this.selectedLanguages['pl'] && this.form.value.titlePl) {
+      translations.pl = {
+        title: this.form.value.titlePl,
+        shortDescription: this.form.value.shortDescriptionPl,
+        content: this.form.value.contentPl
+      };
+      availableLanguages.push('pl');
+    }
+
+    if (this.selectedLanguages['en'] && this.form.value.titleEn) {
+      translations.en = {
+        title: this.form.value.titleEn,
+        shortDescription: this.form.value.shortDescriptionEn,
+        content: this.form.value.contentEn
+      };
+      availableLanguages.push('en');
+    }
+
+    // Перевірка: хоча б одна мова має бути заповнена
+    if (availableLanguages.length === 0) {
+      alert('Заповніть хоча б одну мову!');
+      this.saving = false;
+      return;
+    }
+
     const postData = {
-      ...this.form.value,
+      coverImage: this.form.value.coverImage,
+      translations,
+      availableLanguages,
       tags,
-      authors
+      authors,
+      published: this.form.value.published,
+      featured: this.form.value.featured
     };
 
     try {
       if (this.isEditMode && this.postId) {
-        /** Оновлюємо існуючий пост */
         await this.postService.updatePost(this.postId, postData);
       } else {
-        /** Створюємо новий пост */
         await this.postService.createPost(postData);
       }
-      /** Повертаємось на дашборд після збереження */
       this.router.navigate(['/admin/dashboard']);
     } catch (err) {
       console.error('Помилка збереження поста:', err);

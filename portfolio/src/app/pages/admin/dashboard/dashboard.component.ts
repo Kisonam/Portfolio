@@ -42,6 +42,17 @@ export class DashboardComponent implements OnInit {
     this.projectService.getAllProjects().subscribe(projects => this.projects = projects);
   }
 
+  /** Отримати назву з translations */
+  getTitle(item: Post | Project): string {
+    if (!item.translations) {
+      return 'Untitled';
+    }
+    return item.translations.uk?.title ||
+           item.translations.pl?.title ||
+           item.translations.en?.title ||
+           'Untitled';
+  }
+
   /** Вихід з акаунту адміна */
   async logout() {
     await this.authService.logout();
@@ -50,14 +61,14 @@ export class DashboardComponent implements OnInit {
 
   /** Видалити пост з підтвердженням */
   async deletePost(post: Post) {
-    if (confirm(`Видалити пост "${post.title}"?`)) {
+    if (confirm(`Видалити пост "${this.getTitle(post)}"?`)) {
       await this.postService.deletePost(post.id!);
     }
   }
 
   /** Видалити проєкт з підтвердженням */
   async deleteProject(project: Project) {
-    if (confirm(`Видалити проєкт "${project.title}"?`)) {
+    if (confirm(`Видалити проєкт "${this.getTitle(project)}"?`)) {
       await this.projectService.deleteProject(project.id!);
     }
   }

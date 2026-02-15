@@ -4,7 +4,7 @@
   <div class="post-card__image-wrapper">
     <img
       [src]="post.coverImage"
-      [alt]="post.title"
+      [alt]="getTranslation().title"
       class="post-card__image"
       loading="lazy"
     />
@@ -22,10 +22,10 @@
     </div>
 
     <!-- Назва поста -->
-    <h3 class="post-card__title">{{ post.title }}</h3>
+    <h3 class="post-card__title">{{ getTranslation().title }}</h3>
 
     <!-- Короткий опис -->
-    <p class="post-card__description">{{ post.shortDescription }}</p>
+    <p class="post-card__description">{{ getTranslation().shortDescription }}</p>
 
     <!-- Хештеги -->
     <div class="post-card__tags">

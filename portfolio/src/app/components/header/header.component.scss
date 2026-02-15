@@ -71,12 +71,11 @@
     }
   }
 
-  /* Перемикач мов */
-  &__lang {
-    display: flex;
-    gap: 4px;
-    margin-left: 1rem;
-    padding-left: 1rem;
+  /* Dropdown меню мов */
+  &__lang-dropdown {
+    position: relative;
+    margin-left: 1.5rem;
+    padding-left: 1.5rem;
     border-left: 1px solid #21262d;
 
     @media (max-width: 768px) {
@@ -89,26 +88,85 @@
     }
   }
 
-  &__lang-btn {
+  &__lang-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     background: none;
     border: 1px solid #30363d;
-    color: #8b949e;
-    font-size: 0.8rem;
+    color: #f0f6fc;
+    font-size: 0.85rem;
     font-weight: 500;
-    padding: 4px 10px;
+    padding: 6px 12px;
     border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 80px;
+
+    &:hover {
+      border-color: #58a6ff;
+      background: rgba(88, 166, 255, 0.1);
+    }
+
+    &--open {
+      border-color: #58a6ff;
+      background: rgba(88, 166, 255, 0.1);
+    }
+  }
+
+  &__lang-arrow {
+    font-size: 0.7rem;
+    transition: transform 0.2s;
+
+    .header__lang-toggle--open & {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__lang-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    min-width: 100px;
+
+    @media (max-width: 768px) {
+      position: static;
+      margin-top: 0.5rem;
+      box-shadow: none;
+    }
+  }
+
+  &__lang-option {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    color: #8b949e;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 10px 16px;
+    text-align: left;
     cursor: pointer;
     transition: all 0.2s;
 
     &:hover {
+      background: rgba(88, 166, 255, 0.1);
       color: #f0f6fc;
-      border-color: #58a6ff;
     }
 
     &--active {
-      color: #f0f6fc;
-      background: #58a6ff;
-      border-color: #58a6ff;
+      color: #58a6ff;
+      background: rgba(88, 166, 255, 0.15);
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #21262d;
     }
   }
 

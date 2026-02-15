@@ -39,10 +39,52 @@ export class PostDetailComponent implements OnInit {
         this.post = post;
         if (post) {
           /** Конвертуємо Markdown у HTML для відображення */
-          this.renderedContent = marked(post.content) as string;
+          const translation = this.getTranslation(post);
+          this.renderedContent = marked(translation.content) as string;
         }
         this.loading = false;
       });
+
+      /** Підписуємось на зміну мови для реактивного оновлення контенту */
+      this.i18n.lang$.subscribe(() => {
+        if (this.post) {
+          const translation = this.getTranslation(this.post);
+          this.renderedContent = marked(translation.content) as string;
+        }
+      });
     }
+  }
+
+  /**
+   * Отримує переклад контенту відповідно до обраної мови інтерфейсу.
+   */
+  getTranslation(post: Post) {
+    if (!post.translations) {
+      return {
+        title: post.title || 'Untitled',
+        shortDescription: post.shortDescription || '',
+        content: post.content || ''
+      };
+    }
+
+    const currentLang = this.i18n.currentLang;
+
+    if (post.translations[currentLang]) {
+      return post.translations[currentLang]!;
+    }
+
+    if (post.availableLanguages && post.availableLanguages.length > 0) {
+      const firstAvailableLang = post.availableLanguages[0];
+      return post.translations[firstAvailableLang as 'uk' | 'pl' | 'en']!;
+    }
+
+    return post.translations.uk ||
+           post.translations.pl ||
+           post.translations.en ||
+           {
+             title: post.title || 'Untitled',
+             shortDescription: post.shortDescription || '',
+             content: post.content || ''
+           };
   }
 }

@@ -8,6 +8,7 @@
   overflow: hidden;
   cursor: pointer;
   transition: border-color 0.2s, transform 0.2s;
+  height: 420px; /* Фіксована висота картки */
 
   &:hover {
     border-color: #388bfd;
@@ -78,6 +79,7 @@
     /* Обрізаємо текст до 3 рядків */
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }

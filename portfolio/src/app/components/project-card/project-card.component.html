@@ -4,7 +4,7 @@
   <div class="project-card__image-wrapper">
     <img
       [src]="project.coverImage"
-      [alt]="project.title"
+      [alt]="getTranslation().title"
       class="project-card__image"
       loading="lazy"
     />
@@ -14,10 +14,10 @@
   <div class="project-card__overlay">
     <div class="project-card__body">
       <!-- Назва проєкту -->
-      <h3 class="project-card__title">{{ project.title }}</h3>
+      <h3 class="project-card__title">{{ getTranslation().title }}</h3>
 
       <!-- Короткий опис -->
-      <p class="project-card__description">{{ project.shortDescription }}</p>
+      <p class="project-card__description">{{ getTranslation().shortDescription }}</p>
 
       <!-- Хештеги -->
       <div class="project-card__tags">
