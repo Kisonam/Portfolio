@@ -59,16 +59,18 @@ export class ActivityService {
           dateEvents.get(key)!.push(event);
         };
 
-        /** Функція для отримання title з translations */
+        /** Функція для отримання title з translations або старого поля */
         const getTitle = (item: Post | Project): string => {
-          // Перевірка на існування translations (для сумісності зі старими даними)
-          if (!item.translations) {
-            return 'Untitled';
+          // Спочатку перевіряємо translations
+          if (item.translations) {
+            const title = item.translations.uk?.title ||
+                         item.translations.pl?.title ||
+                         item.translations.en?.title;
+            if (title) return title;
           }
-          return item.translations.uk?.title ||
-                 item.translations.pl?.title ||
-                 item.translations.en?.title ||
-                 'Untitled';
+          // Fallback на старе поле title для зворотної сумісності
+          const oldItem = item as any;
+          return oldItem.title || 'Untitled';
         };
 
         /** Проходимо по всіх постах і проєктах */
@@ -125,13 +127,16 @@ export class ActivityService {
           `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 
         const getTitle = (item: Post | Project): string => {
-          if (!item.translations) {
-            return 'Untitled';
+          // Спочатку перевіряємо translations
+          if (item.translations) {
+            const title = item.translations.uk?.title ||
+                         item.translations.pl?.title ||
+                         item.translations.en?.title;
+            if (title) return title;
           }
-          return item.translations.uk?.title ||
-                 item.translations.pl?.title ||
-                 item.translations.en?.title ||
-                 'Untitled';
+          // Fallback на старе поле title для зворотної сумісності
+          const oldItem = item as any;
+          return oldItem.title || 'Untitled';
         };
 
         posts.forEach(post => {
