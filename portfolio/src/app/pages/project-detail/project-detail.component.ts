@@ -35,6 +35,20 @@ export class ProjectDetailComponent implements OnInit {
   /** Індекс поточного фото в галереї */
   currentImageIndex = 0;
 
+  /** Чи доступний переклад на поточну мову */
+  get isTranslationAvailable(): boolean {
+    if (!this.project || !this.project.translations) {
+      return true; // Старі дані без translations вважаємо доступними
+    }
+    const currentLang = this.i18n.currentLang;
+    return !!this.project.translations[currentLang];
+  }
+
+  /** Отримати назву мови для плашки */
+  get currentLanguageName(): string {
+    return this.i18n.t(`lang.${this.i18n.currentLang}`);
+  }
+
   ngOnInit() {
     /** Отримуємо ID проєкту з URL-параметра (наприклад, /projects/abc123) */
     const id = this.route.snapshot.paramMap.get('id');

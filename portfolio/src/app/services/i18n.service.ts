@@ -57,6 +57,9 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     'project.demo': '🌐 Демо',
     'project.repo': '📁 Репозиторій',
     'project.gallery': 'Галерея',
+    'project.notTranslated': 'Не перекладено на',
+    'project.viewDemo': 'Переглянути демо',
+    'project.viewRepo': 'Переглянути репозиторій',
 
     // Search
     'search.back': '← Головна',
@@ -203,6 +206,9 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     'project.demo': '🌐 Demo',
     'project.repo': '📁 Repozytorium',
     'project.gallery': 'Galeria',
+    'project.notTranslated': 'Nie przetłumaczono na',
+    'project.viewDemo': 'Zobacz demo',
+    'project.viewRepo': 'Zobacz repozytorium',
 
     // Search
     'search.back': '← Strona główna',
@@ -349,6 +355,9 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     'project.demo': '🌐 Demo',
     'project.repo': '📁 Repository',
     'project.gallery': 'Gallery',
+    'project.notTranslated': 'Not translated to',
+    'project.viewDemo': 'View demo',
+    'project.viewRepo': 'View repository',
 
     // Search
     'search.back': '← Home',
