@@ -59,6 +59,23 @@
             <span class="settings__toggle-slider"></span>
           </label>
         </div>
+
+        <!-- Games visibility -->
+        <div class="settings__option">
+          <div class="settings__option-info">
+            <h3 class="settings__option-title">{{ i18n.t('settings.gamesPage') }}</h3>
+            <p class="settings__option-desc">{{ i18n.t('settings.gamesPageDesc') }}</p>
+          </div>
+          <label class="settings__toggle">
+            <input
+              type="checkbox"
+              [checked]="settings.pageVisibility.games"
+              (change)="togglePageVisibility('games')"
+              [disabled]="saving"
+            />
+            <span class="settings__toggle-slider"></span>
+          </label>
+        </div>
       </div>
 
       @if (saveMessage) {

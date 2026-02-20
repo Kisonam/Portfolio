@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
  * Інтенсивність кольору залежить від кількості подій (створення/редагування контенту).
  * Підтримує вибір року та показ деталей активності при кліку на день.
  */
+
 @Component({
   selector: 'app-activity-heatmap',
   standalone: true,
@@ -164,7 +165,6 @@ export class ActivityHeatmapComponent implements OnInit {
       y: (event.target as SVGElement).getBoundingClientRect().top - 30
     };
   }
-
   /** Сховати тултіп */
   hideTooltip() {
     this.tooltip.show = false;

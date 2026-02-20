@@ -57,6 +57,16 @@
           {{ i18n.t('nav.about') }}
         </a>
       }
+      @if (settings.isPageVisible('games')) {
+        <a
+          routerLink="/games"
+          routerLinkActive="header__link--active"
+          class="header__link"
+          (click)="menuOpen = false"
+        >
+          {{ i18n.t('nav.games') }}
+        </a>
+      }
 
       <!-- Dropdown перемикач мов -->
       <div class="header__lang-dropdown">

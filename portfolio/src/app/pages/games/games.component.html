@@ -1,0 +1,161 @@
+<section class="games">
+  <div class="games__header">
+    <h1 class="games__title">{{ i18n.t('games.title') }}</h1>
+    <p class="games__subtitle">{{ i18n.t('games.subtitle') }}</p>
+  </div>
+
+  <!-- Фільтри -->
+  <div class="games__filters">
+    @for (f of ['all','playing','completed','dropped','backlog']; track f) {
+      <button
+        class="games__filter-btn"
+        [class.games__filter-btn--active]="activeFilter === f"
+        (click)="activeFilter = $any(f)"
+      >
+        {{ i18n.t('games.filter.' + f) }}
+      </button>
+    }
+  </div>
+
+  @if (loading) {
+    <div class="games__loading">
+      <div class="games__spinner"></div>
+    </div>
+  } @else if (filteredGames.length === 0) {
+    <div class="games__empty">
+      <p>{{ i18n.t('games.empty') }}</p>
+    </div>
+  } @else {
+    <div class="games__grid">
+      @for (game of filteredGames; track game.id) {
+        <div class="games__card" (click)="openGame(game)">
+          <!-- Обкладинка -->
+          <div class="games__card-cover">
+            <img [src]="game.coverImage" [alt]="game.title" class="games__card-img" />
+            <div class="games__card-overlay">
+              <span class="games__card-play">{{ i18n.t('games.viewDetails') }}</span>
+            </div>
+            <span class="games__card-status games__card-status--{{ game.status }}">
+              {{ getStatusLabel(game.status) }}
+            </span>
+          </div>
+          <!-- Інфо -->
+          <div class="games__card-info">
+            <h3 class="games__card-title">{{ game.title }}</h3>
+            <div class="games__card-meta">
+              <span class="games__card-hours">🕐 {{ formatHours(game.hoursPlayed) }}</span>
+              @if (game.achievements?.length) {
+                <span class="games__card-ach">
+                  🏆 {{ getCompletedAchievements(game) }}/{{ game.achievements.length }}
+                </span>
+              }
+            </div>
+            @if (game.rating) {
+              <div class="games__card-stars">
+                @for (star of getRatingStars(game.rating); track star) {
+                  <span [class.games__star--filled]="star <= game.rating!">★</span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</section>
+
+<!-- Модальне вікно деталей гри -->
+@if (selectedGame) {
+  <div class="games__modal-backdrop" (click)="closeGame()">
+    <div class="games__modal" (click)="$event.stopPropagation()">
+      <!-- Фон -->
+      @if (selectedGame.backgroundImage) {
+        <div class="games__modal-bg" [style.backgroundImage]="'url(' + selectedGame.backgroundImage + ')'"></div>
+      }
+      <button class="games__modal-close" (click)="closeGame()">✕</button>
+
+      <div class="games__modal-content">
+        <!-- Шапка -->
+        <div class="games__modal-header">
+          <img [src]="selectedGame.coverImage" [alt]="selectedGame.title" class="games__modal-cover" />
+          <div class="games__modal-info">
+            <h2 class="games__modal-title">{{ selectedGame.title }}</h2>
+            @if (selectedGame.developer) {
+              <p class="games__modal-dev">{{ selectedGame.developer }}</p>
+            }
+            <span class="games__modal-status games__card-status--{{ selectedGame.status }}">
+              {{ getStatusLabel(selectedGame.status) }}
+            </span>
+            <div class="games__modal-stats">
+              <div class="games__modal-stat">
+                <span class="games__modal-stat-label">{{ i18n.t('games.hoursPlayed') }}</span>
+                <span class="games__modal-stat-value">{{ formatHours(selectedGame.hoursPlayed) }}</span>
+              </div>
+              @if (selectedGame.rating) {
+                <div class="games__modal-stat">
+                  <span class="games__modal-stat-label">{{ i18n.t('games.rating') }}</span>
+                  <div class="games__modal-stars">
+                    @for (star of getRatingStars(selectedGame.rating); track star) {
+                      <span [class.games__star--filled]="star <= selectedGame.rating!">★</span>
+                    }
+                  </div>
+                </div>
+              }
+              @if (selectedGame.genre?.length) {
+                <div class="games__modal-stat">
+                  <span class="games__modal-stat-label">{{ i18n.t('games.genre') }}</span>
+                  <div class="games__modal-genres">
+                    @for (g of selectedGame.genre; track g) {
+                      <span class="games__genre-tag">{{ g }}</span>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+            @if (selectedGame.steamUrl) {
+              <a [href]="selectedGame.steamUrl" target="_blank" rel="noopener" class="games__steam-btn">
+                {{ i18n.t('games.openSteam') }}
+              </a>
+            }
+          </div>
+        </div>
+
+        <!-- Огляд -->
+        @if (selectedGame.review) {
+          <div class="games__modal-section">
+            <h3 class="games__modal-section-title">{{ i18n.t('games.review') }}</h3>
+            <p class="games__modal-review">{{ selectedGame.review }}</p>
+          </div>
+        }
+
+        <!-- Досягнення -->
+        @if (selectedGame.achievements?.length) {
+          <div class="games__modal-section">
+            <h3 class="games__modal-section-title">
+              {{ i18n.t('games.achievements') }}
+              <span class="games__ach-progress">
+                {{ getCompletedAchievements(selectedGame) }}/{{ selectedGame.achievements.length }}
+              </span>
+            </h3>
+            <div class="games__achievements">
+              @for (ach of selectedGame.achievements; track ach.title) {
+                <div class="games__achievement" [class.games__achievement--done]="ach.completed">
+                  <span class="games__achievement-icon">{{ ach.completed ? '🏆' : '🔒' }}</span>
+                  <div class="games__achievement-info">
+                    <span class="games__achievement-title">{{ ach.title }}</span>
+                    @if (ach.description) {
+                      <span class="games__achievement-desc">{{ ach.description }}</span>
+                    }
+                  </div>
+                  @if (ach.completed && ach.completedAt) {
+                    <span class="games__achievement-date">{{ ach.completedAt }}</span>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}

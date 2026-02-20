@@ -30,7 +30,8 @@ export class SettingsService {
           pageVisibility: {
             blog: true,
             projects: true,
-            about: true
+            about: true,
+            games: true
           },
           updatedAt: new Date()
         };
@@ -44,7 +45,8 @@ export class SettingsService {
         pageVisibility: {
           blog: true,
           projects: true,
-          about: true
+          about: true,
+          games: true
         },
         updatedAt: new Date()
       });

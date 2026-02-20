@@ -51,6 +51,13 @@ export const routes: Routes = [
     canActivate: [pageVisibilityGuard]
   },
 
+  /** Сторінка ігор */
+  {
+    path: 'games',
+    loadComponent: () => import('./pages/games/games.component').then(m => m.GamesComponent),
+    canActivate: [pageVisibilityGuard]
+  },
+
   /** Сторінка пошуку/фільтрації за хештегом (?tag=...) */
   {
     path: 'search',
@@ -83,6 +90,20 @@ export const routes: Routes = [
   {
     path: 'admin/about',
     loadComponent: () => import('./pages/admin/about-form/about-form.component').then(m => m.AboutFormComponent),
+    canActivate: [authGuard]
+  },
+
+  /** Нова гра */
+  {
+    path: 'admin/game/new',
+    loadComponent: () => import('./pages/admin/game-form/game-form.component').then(m => m.GameFormComponent),
+    canActivate: [authGuard]
+  },
+
+  /** Редагування гри */
+  {
+    path: 'admin/game/:id',
+    loadComponent: () => import('./pages/admin/game-form/game-form.component').then(m => m.GameFormComponent),
     canActivate: [authGuard]
   },
 
