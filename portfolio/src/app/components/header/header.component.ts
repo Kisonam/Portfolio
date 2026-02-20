@@ -1,8 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { I18nService, Lang } from '../../services/i18n.service';
-import { SettingsService } from '../../services/settings.service';
 
 /**
  * Компонент шапки сайту.
@@ -15,16 +13,13 @@ import { SettingsService } from '../../services/settings.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
   /** Сервіс інтернаціоналізації */
   i18n = inject(I18nService);
-
-  /** Сервіс налаштувань */
-  settingsService = inject(SettingsService);
 
   /** Стан мобільного меню (відкрите/закрите) */
   menuOpen = false;
