@@ -43,6 +43,14 @@
       >
         {{ i18n.t('nav.projects') }}
       </a>
+      <a
+        routerLink="/about"
+        routerLinkActive="header__link--active"
+        class="header__link"
+        (click)="menuOpen = false"
+      >
+        {{ i18n.t('nav.about') }}
+      </a>
 
       <!-- Dropdown перемикач мов -->
       <div class="header__lang-dropdown">

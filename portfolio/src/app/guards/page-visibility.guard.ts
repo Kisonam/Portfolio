@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { SettingsService } from '../services/settings.service';
 import { PageVisibility } from '../models/settings.model';
+import { filter, map, take } from 'rxjs';
 
 export const pageVisibilityGuard: CanActivateFn = (route, state) => {
   const settingsService = inject(SettingsService);
@@ -9,7 +10,7 @@ export const pageVisibilityGuard: CanActivateFn = (route, state) => {
 
   // Визначаємо яку сторінку перевіряємо на основі URL
   let page: keyof PageVisibility | null = null;
-  
+
   if (state.url.startsWith('/blog')) {
     page = 'blog';
   } else if (state.url.startsWith('/projects')) {
@@ -23,14 +24,19 @@ export const pageVisibilityGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-  // Перевіряємо чи сторінка видима
-  const isVisible = settingsService.isPageVisible(page);
-  
-  if (!isVisible) {
-    // Якщо сторінка прихована, перенаправляємо на головну
-    router.navigate(['/']);
-    return false;
-  }
+  const targetPage = page;
 
-  return true;
+  // Чекаємо поки налаштування завантажаться (не null), потім перевіряємо
+  return settingsService.settings$.pipe(
+    filter(settings => settings !== null),
+    take(1),
+    map(settings => {
+      const isVisible = settings!.pageVisibility[targetPage] ?? true;
+      if (!isVisible) {
+        router.navigate(['/']);
+        return false;
+      }
+      return true;
+    })
+  );
 };

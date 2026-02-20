@@ -1,0 +1,247 @@
+/* Стилі форми редагування "Про мене" */
+.about-form {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+
+  &__back {
+    display: inline-block;
+    color: #58a6ff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    transition: color 0.2s;
+
+    &:hover { color: #79c0ff; }
+  }
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #f0f6fc;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Мовні вкладки */
+  &__lang-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #21262d;
+  }
+
+  &__lang-tab {
+    background: none;
+    border: none;
+    color: #8b949e;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+
+    &:hover { color: #f0f6fc; }
+
+    &--active {
+      color: #58a6ff;
+      border-bottom-color: #58a6ff;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  /* Секції */
+  &__section {
+    background: #0d1117;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #f0f6fc;
+    margin: 0 0 0.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #21262d;
+  }
+
+  &__hint {
+    font-size: 0.8rem;
+    color: #8b949e;
+    margin: -0.5rem 0 0;
+  }
+
+  /* Поля */
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  &__label {
+    font-size: 0.85rem;
+    color: #8b949e;
+    font-weight: 500;
+  }
+
+  &__input {
+    background: #161b22;
+    border: 1px solid #30363d;
+    color: #f0f6fc;
+    padding: 0.6rem 0.875rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus { border-color: #58a6ff; }
+
+    &--sm { flex: 1; }
+  }
+
+  &__textarea {
+    background: #161b22;
+    border: 1px solid #30363d;
+    color: #f0f6fc;
+    padding: 0.6rem 0.875rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    outline: none;
+    resize: vertical;
+    font-family: inherit;
+    line-height: 1.6;
+    transition: border-color 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus { border-color: #58a6ff; }
+  }
+
+  &__photo-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #30363d;
+    margin-top: 0.25rem;
+  }
+
+  /* Навички */
+  &__skill-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+  }
+
+  &__skill-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  /* Картки досвіду/освіти */
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+  }
+
+  &__card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #8b949e;
+  }
+
+  &__remove-btn {
+    background: transparent;
+    border: none;
+    color: #f85149;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background 0.2s;
+
+    &:hover { background: rgba(248, 81, 73, 0.1); }
+  }
+
+  &__add-btn {
+    background: transparent;
+    border: 1px dashed #30363d;
+    color: #58a6ff;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    width: 100%;
+    transition: all 0.2s;
+
+    &:hover {
+      border-color: #58a6ff;
+      background: rgba(56, 139, 253, 0.05);
+    }
+  }
+
+  /* Footer */
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+  }
+
+  &__save-btn {
+    background: #238636;
+    border: none;
+    color: #fff;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover:not(:disabled) { background: #2ea043; }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+
+  &__message {
+    padding: 0.75rem 1rem;
+    background: rgba(35, 134, 54, 0.15);
+    border: 1px solid rgba(35, 134, 54, 0.3);
+    color: #3fb950;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    width: 100%;
+    text-align: center;
+
+    &--error {
+      background: rgba(248, 81, 73, 0.15);
+      border-color: rgba(248, 81, 73, 0.3);
+      color: #f85149;
+    }
+  }
+}

@@ -1,0 +1,148 @@
+<div class="about-form">
+  <a class="about-form__back" (click)="goBack()">{{ i18n.t('aboutForm.back') }}</a>
+  <h1 class="about-form__title">{{ i18n.t('aboutForm.title') }}</h1>
+
+  <!-- Мовні вкладки -->
+  <div class="about-form__lang-tabs">
+    @for (lang of langs; track lang) {
+      <button
+        class="about-form__lang-tab"
+        [class.about-form__lang-tab--active]="activeLang === lang"
+        (click)="activeLang = lang"
+      >
+        {{ lang.toUpperCase() }}
+      </button>
+    }
+  </div>
+
+  <div class="about-form__body">
+    <!-- Фото та контакти -->
+    <div class="about-form__section">
+      <h2 class="about-form__section-title">{{ i18n.t('aboutForm.general') }}</h2>
+      <div class="about-form__field">
+        <label class="about-form__label">{{ i18n.t('aboutForm.photo') }}</label>
+        <input class="about-form__input" type="url" [(ngModel)]="form.photo" [placeholder]="i18n.t('aboutForm.photoPlaceholder')" />
+        @if (form.photo) {
+          <img [src]="form.photo" alt="preview" class="about-form__photo-preview" />
+        }
+      </div>
+      <div class="about-form__field">
+        <label class="about-form__label">Email</label>
+        <input class="about-form__input" type="email" [(ngModel)]="form.email" placeholder="email@example.com" />
+      </div>
+      <div class="about-form__field">
+        <label class="about-form__label">GitHub URL</label>
+        <input class="about-form__input" type="url" [(ngModel)]="form.github" placeholder="https://github.com/..." />
+      </div>
+      <div class="about-form__field">
+        <label class="about-form__label">LinkedIn URL</label>
+        <input class="about-form__input" type="url" [(ngModel)]="form.linkedin" placeholder="https://linkedin.com/in/..." />
+      </div>
+      <div class="about-form__field">
+        <label class="about-form__label">Website URL</label>
+        <input class="about-form__input" type="url" [(ngModel)]="form.website" placeholder="https://..." />
+      </div>
+    </div>
+
+    <!-- Переклади (залежно від activeLang) -->
+    <div class="about-form__section">
+      <h2 class="about-form__section-title">{{ i18n.t('aboutForm.translations') }} — {{ activeLang.toUpperCase() }}</h2>
+      <div class="about-form__field">
+        <label class="about-form__label">{{ i18n.t('aboutForm.name') }}</label>
+        <input class="about-form__input" type="text" [(ngModel)]="form.translations[activeLang].name" [placeholder]="i18n.t('aboutForm.namePlaceholder')" />
+      </div>
+      <div class="about-form__field">
+        <label class="about-form__label">{{ i18n.t('aboutForm.jobTitle') }}</label>
+        <input class="about-form__input" type="text" [(ngModel)]="form.translations[activeLang].title" [placeholder]="i18n.t('aboutForm.jobTitlePlaceholder')" />
+      </div>
+      <div class="about-form__field">
+        <label class="about-form__label">{{ i18n.t('aboutForm.bio') }}</label>
+        <textarea class="about-form__textarea" [(ngModel)]="form.translations[activeLang].bio" [placeholder]="i18n.t('aboutForm.bioPlaceholder')" rows="6"></textarea>
+      </div>
+    </div>
+
+    <!-- Навички -->
+    <div class="about-form__section">
+      <h2 class="about-form__section-title">{{ i18n.t('aboutForm.skills') }}</h2>
+      <p class="about-form__hint">{{ i18n.t('aboutForm.skillsHint') }}</p>
+      @for (group of skillsRaw; track $index; let i = $index) {
+        <div class="about-form__skill-group">
+          <div class="about-form__skill-row">
+            <input class="about-form__input about-form__input--sm" type="text" [(ngModel)]="group.category" [placeholder]="i18n.t('aboutForm.skillCategory')" />
+            <button class="about-form__remove-btn" (click)="removeSkillGroup(i)">✕</button>
+          </div>
+          <input class="about-form__input" type="text" [(ngModel)]="group.skillsStr" [placeholder]="i18n.t('aboutForm.skillsPlaceholder')" />
+        </div>
+      }
+      <button class="about-form__add-btn" (click)="addSkillGroup()">+ {{ i18n.t('aboutForm.addSkillGroup') }}</button>
+    </div>
+
+    <!-- Досвід -->
+    <div class="about-form__section">
+      <h2 class="about-form__section-title">{{ i18n.t('aboutForm.experience') }}</h2>
+      @for (exp of form.experience; track $index; let i = $index) {
+        <div class="about-form__card">
+          <div class="about-form__card-header">
+            <span>{{ exp.role || i18n.t('aboutForm.experienceItem') }} {{ i + 1 }}</span>
+            <button class="about-form__remove-btn" (click)="removeExperience(i)">✕</button>
+          </div>
+          <div class="about-form__field">
+            <label class="about-form__label">{{ i18n.t('aboutForm.role') }}</label>
+            <input class="about-form__input" type="text" [(ngModel)]="exp.role" [placeholder]="i18n.t('aboutForm.rolePlaceholder')" />
+          </div>
+          <div class="about-form__field">
+            <label class="about-form__label">{{ i18n.t('aboutForm.company') }}</label>
+            <input class="about-form__input" type="text" [(ngModel)]="exp.company" [placeholder]="i18n.t('aboutForm.companyPlaceholder')" />
+          </div>
+          <div class="about-form__field">
+            <label class="about-form__label">{{ i18n.t('aboutForm.period') }}</label>
+            <input class="about-form__input" type="text" [(ngModel)]="exp.period" placeholder="2022 — 2024" />
+          </div>
+          <div class="about-form__field">
+            <label class="about-form__label">{{ i18n.t('aboutForm.description') }}</label>
+            <textarea class="about-form__textarea" [(ngModel)]="exp.description" [placeholder]="i18n.t('aboutForm.descriptionPlaceholder')" rows="3"></textarea>
+          </div>
+        </div>
+      }
+      <button class="about-form__add-btn" (click)="addExperience()">+ {{ i18n.t('aboutForm.addExperience') }}</button>
+    </div>
+
+    <!-- Освіта -->
+    <div class="about-form__section">
+      <h2 class="about-form__section-title">{{ i18n.t('aboutForm.education') }}</h2>
+      @for (edu of form.education; track $index; let i = $index) {
+        <div class="about-form__card">
+          <div class="about-form__card-header">
+            <span>{{ edu.institution || i18n.t('aboutForm.educationItem') }} {{ i + 1 }}</span>
+            <button class="about-form__remove-btn" (click)="removeEducation(i)">✕</button>
+          </div>
+          <div class="about-form__field">
+            <label class="about-form__label">{{ i18n.t('aboutForm.degree') }}</label>
+            <input class="about-form__input" type="text" [(ngModel)]="edu.degree" [placeholder]="i18n.t('aboutForm.degreePlaceholder')" />
+          </div>
+          <div class="about-form__field">
+            <label class="about-form__label">{{ i18n.t('aboutForm.institution') }}</label>
+            <input class="about-form__input" type="text" [(ngModel)]="edu.institution" [placeholder]="i18n.t('aboutForm.institutionPlaceholder')" />
+          </div>
+          <div class="about-form__field">
+            <label class="about-form__label">{{ i18n.t('aboutForm.period') }}</label>
+            <input class="about-form__input" type="text" [(ngModel)]="edu.period" placeholder="2018 — 2022" />
+          </div>
+        </div>
+      }
+      <button class="about-form__add-btn" (click)="addEducation()">+ {{ i18n.t('aboutForm.addEducation') }}</button>
+    </div>
+
+    <!-- Зберегти -->
+    <div class="about-form__footer">
+      @if (saveMessage) {
+        <div class="about-form__message" [class.about-form__message--error]="saveMessage === i18n.t('aboutForm.error')">
+          {{ saveMessage }}
+        </div>
+      }
+      <button class="about-form__save-btn" (click)="save()" [disabled]="saving">
+        {{ saving ? i18n.t('aboutForm.saving') : i18n.t('aboutForm.save') }}
+      </button>
+    </div>
+  </div>
+</div>
