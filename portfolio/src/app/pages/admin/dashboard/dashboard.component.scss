@@ -268,8 +268,13 @@
     margin-right: 6px;
   }
 
-  &__cell-tool {
-    vertical-align: middle;
+  &__tool-name {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__cell-category { color: #8b949e; font-size: 0.875rem; }

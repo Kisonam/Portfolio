@@ -129,9 +129,11 @@
                   @if (editingToolId === tool.id) {
                     <input class="dashboard__inline-input" [(ngModel)]="editingTool.name" />
                   } @else {
-                    @if (tool.icon) { <img [src]="tool.icon" class="dashboard__tool-icon" alt="" /> }
-                    {{ tool.name }}
-                    @if (tool.pinned) { <span class="dashboard__badge dashboard__badge--pinned">📌</span> }
+                    <span class="dashboard__tool-name">
+                      @if (tool.icon) { <img [src]="tool.icon" class="dashboard__tool-icon" alt="" /> }
+                      <span>{{ tool.name }}</span>
+                      @if (tool.pinned) { <span class="dashboard__badge dashboard__badge--pinned">📌</span> }
+                    </span>
                   }
                 </td>
                 <td class="dashboard__cell-category">
