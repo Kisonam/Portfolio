@@ -1,0 +1,76 @@
+<div class="settings">
+  <a class="settings__back" (click)="goBack()">{{ i18n.t('settings.back') }}</a>
+
+  <h1 class="settings__title">{{ i18n.t('settings.title') }}</h1>
+
+  @if (settings) {
+    <div class="settings__section">
+      <h2 class="settings__section-title">{{ i18n.t('settings.pageVisibility') }}</h2>
+      <p class="settings__description">{{ i18n.t('settings.pageVisibilityDesc') }}</p>
+
+      <div class="settings__options">
+        <!-- Blog visibility -->
+        <div class="settings__option">
+          <div class="settings__option-info">
+            <h3 class="settings__option-title">{{ i18n.t('settings.blogPage') }}</h3>
+            <p class="settings__option-desc">{{ i18n.t('settings.blogPageDesc') }}</p>
+          </div>
+          <label class="settings__toggle">
+            <input
+              type="checkbox"
+              [checked]="settings.pageVisibility.blog"
+              (change)="togglePageVisibility('blog')"
+              [disabled]="saving"
+            />
+            <span class="settings__toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Projects visibility -->
+        <div class="settings__option">
+          <div class="settings__option-info">
+            <h3 class="settings__option-title">{{ i18n.t('settings.projectsPage') }}</h3>
+            <p class="settings__option-desc">{{ i18n.t('settings.projectsPageDesc') }}</p>
+          </div>
+          <label class="settings__toggle">
+            <input
+              type="checkbox"
+              [checked]="settings.pageVisibility.projects"
+              (change)="togglePageVisibility('projects')"
+              [disabled]="saving"
+            />
+            <span class="settings__toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- About visibility -->
+        <div class="settings__option">
+          <div class="settings__option-info">
+            <h3 class="settings__option-title">{{ i18n.t('settings.aboutPage') }}</h3>
+            <p class="settings__option-desc">{{ i18n.t('settings.aboutPageDesc') }}</p>
+          </div>
+          <label class="settings__toggle">
+            <input
+              type="checkbox"
+              [checked]="settings.pageVisibility.about"
+              (change)="togglePageVisibility('about')"
+              [disabled]="saving"
+            />
+            <span class="settings__toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      @if (saveMessage) {
+        <div class="settings__message" [class.settings__message--error]="saveMessage === i18n.t('settings.error')">
+          {{ saveMessage }}
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="settings__loading">
+      <div class="settings__spinner"></div>
+      <p>{{ i18n.t('settings.loading') }}</p>
+    </div>
+  }
+</div>

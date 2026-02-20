@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { pageVisibilityGuard } from './guards/page-visibility.guard';
 
 /**
  * Маршрути додатку.
@@ -18,25 +19,29 @@ export const routes: Routes = [
   /** Сторінка блогу — вертикальна стрічка постів */
   {
     path: 'blog',
-    loadComponent: () => import('./pages/blog/blog.component').then(m => m.BlogComponent)
+    loadComponent: () => import('./pages/blog/blog.component').then(m => m.BlogComponent),
+    canActivate: [pageVisibilityGuard]
   },
 
   /** Деталі поста — повний перегляд одного поста */
   {
     path: 'blog/:id',
-    loadComponent: () => import('./pages/post-detail/post-detail.component').then(m => m.PostDetailComponent)
+    loadComponent: () => import('./pages/post-detail/post-detail.component').then(m => m.PostDetailComponent),
+    canActivate: [pageVisibilityGuard]
   },
 
   /** Сторінка проєктів — горизонтальна галерея */
   {
     path: 'projects',
-    loadComponent: () => import('./pages/projects/projects.component').then(m => m.ProjectsComponent)
+    loadComponent: () => import('./pages/projects/projects.component').then(m => m.ProjectsComponent),
+    canActivate: [pageVisibilityGuard]
   },
 
   /** Деталі проєкту — повний перегляд з галереєю */
   {
     path: 'projects/:id',
-    loadComponent: () => import('./pages/project-detail/project-detail.component').then(m => m.ProjectDetailComponent)
+    loadComponent: () => import('./pages/project-detail/project-detail.component').then(m => m.ProjectDetailComponent),
+    canActivate: [pageVisibilityGuard]
   },
 
   /** Сторінка пошуку/фільтрації за хештегом (?tag=...) */
@@ -57,6 +62,13 @@ export const routes: Routes = [
   {
     path: 'admin/dashboard',
     loadComponent: () => import('./pages/admin/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    canActivate: [authGuard]
+  },
+
+  /** Налаштування сайту */
+  {
+    path: 'admin/settings',
+    loadComponent: () => import('./pages/admin/settings/settings.component').then(m => m.SettingsComponent),
     canActivate: [authGuard]
   },
 

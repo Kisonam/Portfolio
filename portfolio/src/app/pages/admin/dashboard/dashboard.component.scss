@@ -18,6 +18,32 @@
     color: #f0f6fc;
   }
 
+  &__header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  &__settings-btn {
+    background: transparent;
+    border: 1px solid #30363d;
+    color: #8b949e;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover {
+      border-color: #58a6ff;
+      color: #58a6ff;
+    }
+  }
+
   &__logout {
     background: transparent;
     border: 1px solid #30363d;

@@ -103,6 +103,21 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     'admin.noPosts': 'Немає постів. Створіть перший!',
     'admin.noProjects': 'Немає проєктів. Створіть перший!',
 
+    // Settings
+    'settings.title': 'Налаштування',
+    'settings.back': '← Дашборд',
+    'settings.pageVisibility': 'Видимість сторінок',
+    'settings.pageVisibilityDesc': 'Керуйте видимістю сторінок на сайті. Виключені сторінки будуть недоступні для відвідувачів.',
+    'settings.blogPage': 'Сторінка "Блог"',
+    'settings.blogPageDesc': 'Показувати сторінку з постами блогу',
+    'settings.projectsPage': 'Сторінка "Проєкти"',
+    'settings.projectsPageDesc': 'Показувати сторінку з проєктами',
+    'settings.aboutPage': 'Сторінка "Про мене"',
+    'settings.aboutPageDesc': 'Показувати сторінку про мене',
+    'settings.saved': 'Налаштування збережено!',
+    'settings.error': 'Помилка збереження',
+    'settings.loading': 'Завантаження налаштувань...',
+
     // Login
     'login.title': 'Вхід в адмін-панель',
     'login.subtitle': 'Введіть свої облікові дані',
@@ -252,6 +267,21 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     'admin.noPosts': 'Brak postów. Utwórz pierwszy!',
     'admin.noProjects': 'Brak projektów. Utwórz pierwszy!',
 
+    // Settings
+    'settings.title': 'Ustawienia',
+    'settings.back': '← Panel',
+    'settings.pageVisibility': 'Widoczność stron',
+    'settings.pageVisibilityDesc': 'Zarządzaj widocznością stron na stronie. Wyłączone strony będą niedostępne dla odwiedzających.',
+    'settings.blogPage': 'Strona "Blog"',
+    'settings.blogPageDesc': 'Pokazuj stronę z postami bloga',
+    'settings.projectsPage': 'Strona "Projekty"',
+    'settings.projectsPageDesc': 'Pokazuj stronę z projektami',
+    'settings.aboutPage': 'Strona "O mnie"',
+    'settings.aboutPageDesc': 'Pokazuj stronę o mnie',
+    'settings.saved': 'Ustawienia zapisane!',
+    'settings.error': 'Błąd zapisu',
+    'settings.loading': 'Ładowanie ustawień...',
+
     // Login
     'login.title': 'Logowanie do panelu',
     'login.subtitle': 'Wprowadź swoje dane',
@@ -400,6 +430,21 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     'admin.delete': 'Delete',
     'admin.noPosts': 'No posts. Create the first one!',
     'admin.noProjects': 'No projects. Create the first one!',
+
+    // Settings
+    'settings.title': 'Settings',
+    'settings.back': '← Dashboard',
+    'settings.pageVisibility': 'Page Visibility',
+    'settings.pageVisibilityDesc': 'Manage page visibility on the site. Disabled pages will be unavailable to visitors.',
+    'settings.blogPage': 'Blog Page',
+    'settings.blogPageDesc': 'Show blog posts page',
+    'settings.projectsPage': 'Projects Page',
+    'settings.projectsPageDesc': 'Show projects page',
+    'settings.aboutPage': 'About Page',
+    'settings.aboutPageDesc': 'Show about me page',
+    'settings.saved': 'Settings saved!',
+    'settings.error': 'Save error',
+    'settings.loading': 'Loading settings...',
 
     // Login
     'login.title': 'Admin Login',
