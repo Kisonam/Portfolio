@@ -27,26 +27,22 @@
       >
         {{ i18n.t('nav.home') }}
       </a>
-      @if (settingsService.isPageVisible('blog')) {
-        <a
-          routerLink="/blog"
-          routerLinkActive="header__link--active"
-          class="header__link"
-          (click)="menuOpen = false"
-        >
-          {{ i18n.t('nav.blog') }}
-        </a>
-      }
-      @if (settingsService.isPageVisible('projects')) {
-        <a
-          routerLink="/projects"
-          routerLinkActive="header__link--active"
-          class="header__link"
-          (click)="menuOpen = false"
-        >
-          {{ i18n.t('nav.projects') }}
-        </a>
-      }
+      <a
+        routerLink="/blog"
+        routerLinkActive="header__link--active"
+        class="header__link"
+        (click)="menuOpen = false"
+      >
+        {{ i18n.t('nav.blog') }}
+      </a>
+      <a
+        routerLink="/projects"
+        routerLinkActive="header__link--active"
+        class="header__link"
+        (click)="menuOpen = false"
+      >
+        {{ i18n.t('nav.projects') }}
+      </a>
 
       <!-- Dropdown перемикач мов -->
       <div class="header__lang-dropdown">

@@ -19,29 +19,25 @@ export const routes: Routes = [
   /** Сторінка блогу — вертикальна стрічка постів */
   {
     path: 'blog',
-    loadComponent: () => import('./pages/blog/blog.component').then(m => m.BlogComponent),
-    canActivate: [pageVisibilityGuard]
+    loadComponent: () => import('./pages/blog/blog.component').then(m => m.BlogComponent)
   },
 
   /** Деталі поста — повний перегляд одного поста */
   {
     path: 'blog/:id',
-    loadComponent: () => import('./pages/post-detail/post-detail.component').then(m => m.PostDetailComponent),
-    canActivate: [pageVisibilityGuard]
+    loadComponent: () => import('./pages/post-detail/post-detail.component').then(m => m.PostDetailComponent)
   },
 
   /** Сторінка проєктів — горизонтальна галерея */
   {
     path: 'projects',
-    loadComponent: () => import('./pages/projects/projects.component').then(m => m.ProjectsComponent),
-    canActivate: [pageVisibilityGuard]
+    loadComponent: () => import('./pages/projects/projects.component').then(m => m.ProjectsComponent)
   },
 
   /** Деталі проєкту — повний перегляд з галереєю */
   {
     path: 'projects/:id',
-    loadComponent: () => import('./pages/project-detail/project-detail.component').then(m => m.ProjectDetailComponent),
-    canActivate: [pageVisibilityGuard]
+    loadComponent: () => import('./pages/project-detail/project-detail.component').then(m => m.ProjectDetailComponent)
   },
 
   /** Сторінка пошуку/фільтрації за хештегом (?tag=...) */
