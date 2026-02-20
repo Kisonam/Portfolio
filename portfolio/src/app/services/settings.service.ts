@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Firestore, doc, getDoc, setDoc, docData } from '@angular/fire/firestore';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { BehaviorSubject } from 'rxjs';
 import { SiteSettings, PageVisibility } from '../models/settings.model';
+import { db } from './firebase.init';
 
 @Injectable({
   providedIn: 'root'
@@ -11,34 +12,47 @@ export class SettingsService {
   private settingsSubject = new BehaviorSubject<SiteSettings | null>(null);
   public settings$ = this.settingsSubject.asObservable();
 
-  constructor(private firestore: Firestore) {
+  constructor() {
     this.loadSettings();
   }
 
   private async loadSettings(): Promise<void> {
-    const settingsRef = doc(this.firestore, 'settings', this.SETTINGS_DOC_ID);
-    const settingsSnap = await getDoc(settingsRef);
-    
-    if (settingsSnap.exists()) {
-      const data = settingsSnap.data() as SiteSettings;
-      this.settingsSubject.next(data);
-    } else {
-      // Створюємо дефолтні налаштування якщо їх немає
-      const defaultSettings: SiteSettings = {
+    try {
+      const settingsRef = doc(db, 'settings', this.SETTINGS_DOC_ID);
+      const settingsSnap = await getDoc(settingsRef);
+
+      if (settingsSnap.exists()) {
+        const data = settingsSnap.data() as SiteSettings;
+        this.settingsSubject.next(data);
+      } else {
+        // Створюємо дефолтні налаштування якщо їх немає
+        const defaultSettings: SiteSettings = {
+          pageVisibility: {
+            blog: true,
+            projects: true,
+            about: true
+          },
+          updatedAt: new Date()
+        };
+        await this.saveSettings(defaultSettings);
+        this.settingsSubject.next(defaultSettings);
+      }
+    } catch (error) {
+      console.error('Error loading settings:', error);
+      // У разі помилки використовуємо дефолтні налаштування
+      this.settingsSubject.next({
         pageVisibility: {
           blog: true,
           projects: true,
           about: true
         },
         updatedAt: new Date()
-      };
-      await this.saveSettings(defaultSettings);
-      this.settingsSubject.next(defaultSettings);
+      });
     }
   }
 
   async saveSettings(settings: SiteSettings): Promise<void> {
-    const settingsRef = doc(this.firestore, 'settings', this.SETTINGS_DOC_ID);
+    const settingsRef = doc(db, 'settings', this.SETTINGS_DOC_ID);
     const dataToSave = {
       ...settings,
       updatedAt: new Date()
