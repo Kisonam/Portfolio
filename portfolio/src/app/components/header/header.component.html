@@ -27,30 +27,36 @@
       >
         {{ i18n.t('nav.home') }}
       </a>
-      <a
-        routerLink="/blog"
-        routerLinkActive="header__link--active"
-        class="header__link"
-        (click)="menuOpen = false"
-      >
-        {{ i18n.t('nav.blog') }}
-      </a>
-      <a
-        routerLink="/projects"
-        routerLinkActive="header__link--active"
-        class="header__link"
-        (click)="menuOpen = false"
-      >
-        {{ i18n.t('nav.projects') }}
-      </a>
-      <a
-        routerLink="/about"
-        routerLinkActive="header__link--active"
-        class="header__link"
-        (click)="menuOpen = false"
-      >
-        {{ i18n.t('nav.about') }}
-      </a>
+      @if (settings.isPageVisible('blog')) {
+        <a
+          routerLink="/blog"
+          routerLinkActive="header__link--active"
+          class="header__link"
+          (click)="menuOpen = false"
+        >
+          {{ i18n.t('nav.blog') }}
+        </a>
+      }
+      @if (settings.isPageVisible('projects')) {
+        <a
+          routerLink="/projects"
+          routerLinkActive="header__link--active"
+          class="header__link"
+          (click)="menuOpen = false"
+        >
+          {{ i18n.t('nav.projects') }}
+        </a>
+      }
+      @if (settings.isPageVisible('about')) {
+        <a
+          routerLink="/about"
+          routerLinkActive="header__link--active"
+          class="header__link"
+          (click)="menuOpen = false"
+        >
+          {{ i18n.t('nav.about') }}
+        </a>
+      }
 
       <!-- Dropdown перемикач мов -->
       <div class="header__lang-dropdown">
