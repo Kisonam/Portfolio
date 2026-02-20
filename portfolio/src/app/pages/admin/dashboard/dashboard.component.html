@@ -124,35 +124,43 @@
           </thead>
           <tbody>
             @for (tool of tools; track tool.id) {
-              @if (editingToolId === tool.id) {
-                <!-- Inline редагування -->
-                <tr class="dashboard__row--editing">
-                  <td><input class="dashboard__inline-input" [(ngModel)]="editingTool.name" /></td>
-                  <td><input class="dashboard__inline-input" [(ngModel)]="editingTool.category" /></td>
-                  <td><input class="dashboard__inline-input dashboard__inline-input--number" type="number" [(ngModel)]="editingTool.hoursUsed" min="0" /></td>
-                  <td class="dashboard__cell-actions">
+              <tr [class.dashboard__row--editing]="editingToolId === tool.id">
+                <td class="dashboard__cell-title">
+                  @if (editingToolId === tool.id) {
+                    <input class="dashboard__inline-input" [(ngModel)]="editingTool.name" />
+                  } @else {
+                    @if (tool.icon) { <img [src]="tool.icon" class="dashboard__tool-icon" alt="" /> }
+                    {{ tool.name }}
+                    @if (tool.pinned) { <span class="dashboard__badge dashboard__badge--pinned">📌</span> }
+                  }
+                </td>
+                <td class="dashboard__cell-category">
+                  @if (editingToolId === tool.id) {
+                    <input class="dashboard__inline-input" [(ngModel)]="editingTool.category" />
+                  } @else {
+                    {{ tool.category || '—' }}
+                  }
+                </td>
+                <td class="dashboard__cell-hours">
+                  @if (editingToolId === tool.id) {
+                    <input class="dashboard__inline-input dashboard__inline-input--number" type="number" [(ngModel)]="editingTool.hoursUsed" min="0" />
+                  } @else {
+                    {{ tool.hoursUsed }} год
+                  }
+                </td>
+                <td class="dashboard__cell-actions">
+                  @if (editingToolId === tool.id) {
                     <button class="dashboard__action-btn dashboard__action-btn--save" (click)="saveEditTool()" [disabled]="savingTool">
                       {{ savingTool ? '...' : '✓' }}
                     </button>
                     <button class="dashboard__action-btn dashboard__action-btn--cancel" (click)="cancelEditTool()">✕</button>
-                  </td>
-                </tr>
-              } @else {
-                <tr>
-                  <td class="dashboard__cell-title dashboard__cell-tool">
-                    @if (tool.icon) { <img [src]="tool.icon" class="dashboard__tool-icon" alt="" /> }
-                    {{ tool.name }}
-                    @if (tool.pinned) { <span class="dashboard__badge dashboard__badge--pinned">📌</span> }
-                  </td>
-                  <td class="dashboard__cell-category">{{ tool.category || '—' }}</td>
-                  <td class="dashboard__cell-hours">{{ tool.hoursUsed }} год</td>
-                  <td class="dashboard__cell-actions">
+                  } @else {
                     <button class="dashboard__action-btn dashboard__action-btn--edit" (click)="startEditTool(tool)">{{ i18n.t('admin.edit') }}</button>
-                    <a [routerLink]="['/admin/tool', tool.id]" class="dashboard__action-btn dashboard__action-btn--edit">Детально</a>
+                    <a [routerLink]="['/admin/tool', tool.id]" class="dashboard__action-btn dashboard__action-btn--edit">{{ i18n.t('admin.details') }}</a>
                     <button class="dashboard__action-btn dashboard__action-btn--delete" (click)="deleteTool(tool)">{{ i18n.t('admin.delete') }}</button>
-                  </td>
-                </tr>
-              }
+                  }
+                </td>
+              </tr>
             }
           </tbody>
         </table>
