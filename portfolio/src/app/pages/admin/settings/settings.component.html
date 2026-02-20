@@ -60,17 +60,17 @@
           </label>
         </div>
 
-        <!-- Games visibility -->
+        <!-- Tools visibility -->
         <div class="settings__option">
           <div class="settings__option-info">
-            <h3 class="settings__option-title">{{ i18n.t('settings.gamesPage') }}</h3>
-            <p class="settings__option-desc">{{ i18n.t('settings.gamesPageDesc') }}</p>
+            <h3 class="settings__option-title">{{ i18n.t('settings.toolsPage') }}</h3>
+            <p class="settings__option-desc">{{ i18n.t('settings.toolsPageDesc') }}</p>
           </div>
           <label class="settings__toggle">
             <input
               type="checkbox"
-              [checked]="settings.pageVisibility.games"
-              (change)="togglePageVisibility('games')"
+              [checked]="settings.pageVisibility.tools"
+              (change)="togglePageVisibility('tools')"
               [disabled]="saving"
             />
             <span class="settings__toggle-slider"></span>

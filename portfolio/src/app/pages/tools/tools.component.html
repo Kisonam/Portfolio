@@ -1,0 +1,135 @@
+<section class="tools">
+  <div class="tools__header">
+    <div>
+      <h1 class="tools__title">{{ i18n.t('tools.title') }}</h1>
+      <p class="tools__subtitle">{{ i18n.t('tools.subtitle') }}</p>
+    </div>
+    @if (!loading && tools.length > 0) {
+      <div class="tools__total">
+        <span class="tools__total-label">{{ i18n.t('tools.totalHours') }}</span>
+        <span class="tools__total-value">{{ formatHours(getTotalHours()) }}</span>
+      </div>
+    }
+  </div>
+
+  <!-- Категорії -->
+  @if (categories.length > 1) {
+    <div class="tools__filters">
+      @for (cat of categories; track cat) {
+        <button
+          class="tools__filter-btn"
+          [class.tools__filter-btn--active]="activeCategory === cat"
+          (click)="activeCategory = cat"
+        >
+          {{ cat === 'all' ? i18n.t('tools.filter.all') : cat }}
+        </button>
+      }
+    </div>
+  }
+
+  @if (loading) {
+    <div class="tools__loading">
+      <div class="tools__spinner"></div>
+    </div>
+  } @else if (filteredTools.length === 0) {
+    <div class="tools__empty">
+      <p>{{ i18n.t('tools.empty') }}</p>
+    </div>
+  } @else {
+    <div class="tools__grid">
+      @for (tool of filteredTools; track tool.id) {
+        <div class="tools__card" (click)="openTool(tool)">
+          <div class="tools__card-icon">
+            @if (tool.icon) {
+              <img [src]="tool.icon" [alt]="tool.name" class="tools__card-icon-img" />
+            } @else {
+              <span class="tools__card-icon-placeholder">🛠</span>
+            }
+          </div>
+          <div class="tools__card-info">
+            <h3 class="tools__card-name">{{ tool.name }}</h3>
+            @if (tool.category) {
+              <span class="tools__card-category">{{ tool.category }}</span>
+            }
+            <div class="tools__card-hours">
+              <span class="tools__card-hours-icon">⏱</span>
+              {{ formatHours(tool.hoursUsed) }}
+            </div>
+            @if (tool.purpose) {
+              <p class="tools__card-purpose">{{ tool.purpose }}</p>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</section>
+
+<!-- Модальне вікно деталей -->
+@if (selectedTool) {
+  <div class="tools__modal-backdrop" (click)="closeTool()">
+    <div class="tools__modal" (click)="$event.stopPropagation()">
+      <button class="tools__modal-close" (click)="closeTool()">✕</button>
+
+      <div class="tools__modal-content">
+        <!-- Шапка -->
+        <div class="tools__modal-header">
+          <div class="tools__modal-icon">
+            @if (selectedTool.icon) {
+              <img [src]="selectedTool.icon" [alt]="selectedTool.name" class="tools__modal-icon-img" />
+            } @else {
+              <span class="tools__modal-icon-placeholder">🛠</span>
+            }
+          </div>
+          <div class="tools__modal-info">
+            <h2 class="tools__modal-title">{{ selectedTool.name }}</h2>
+            @if (selectedTool.category) {
+              <span class="tools__modal-category">{{ selectedTool.category }}</span>
+            }
+            <div class="tools__modal-stats">
+              <div class="tools__modal-stat">
+                <span class="tools__modal-stat-label">{{ i18n.t('tools.hoursUsed') }}</span>
+                <span class="tools__modal-stat-value">{{ formatHours(selectedTool.hoursUsed) }}</span>
+              </div>
+            </div>
+            @if (selectedTool.websiteUrl) {
+              <a [href]="selectedTool.websiteUrl" target="_blank" rel="noopener" class="tools__website-btn">
+                {{ i18n.t('tools.openWebsite') }}
+              </a>
+            }
+          </div>
+        </div>
+
+        <!-- Для чого використовую -->
+        @if (selectedTool.purpose) {
+          <div class="tools__modal-section">
+            <h3 class="tools__modal-section-title">{{ i18n.t('tools.purpose') }}</h3>
+            <p class="tools__modal-purpose">{{ selectedTool.purpose }}</p>
+          </div>
+        }
+
+        <!-- Нотатки / результати -->
+        @if (selectedTool.notes?.length) {
+          <div class="tools__modal-section">
+            <h3 class="tools__modal-section-title">{{ i18n.t('tools.notes') }}</h3>
+            <div class="tools__notes">
+              @for (note of selectedTool.notes; track note.title) {
+                <div class="tools__note">
+                  <span class="tools__note-icon">📌</span>
+                  <div class="tools__note-info">
+                    @if (note.title) {
+                      <span class="tools__note-title">{{ note.title }}</span>
+                    }
+                    @if (note.description) {
+                      <span class="tools__note-desc">{{ note.description }}</span>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}

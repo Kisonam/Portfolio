@@ -57,14 +57,14 @@
           {{ i18n.t('nav.about') }}
         </a>
       }
-      @if (settings.isPageVisible('games')) {
+      @if (settings.isPageVisible('tools')) {
         <a
-          routerLink="/games"
+          routerLink="/tools"
           routerLinkActive="header__link--active"
           class="header__link"
           (click)="menuOpen = false"
         >
-          {{ i18n.t('nav.games') }}
+          {{ i18n.t('nav.tools') }}
         </a>
       }
 

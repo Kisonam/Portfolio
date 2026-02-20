@@ -2,7 +2,7 @@ export interface PageVisibility {
   blog: boolean;
   projects: boolean;
   about: boolean;
-  games: boolean;
+  tools: boolean;
 }
 
 export interface SiteSettings {

@@ -1,5 +1,5 @@
-.game-form {
-  max-width: 900px;
+.tool-form {
+  max-width: 860px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
 
@@ -45,7 +45,7 @@
     border-bottom: 1px solid #21262d;
   }
 
-  &__hint {
+  &__hint-text {
     font-size: 0.8rem;
     color: #8b949e;
     margin: -0.5rem 0 0;
@@ -55,8 +55,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
-
-    &--sm { align-items: center; }
+    align-items: end;
   }
 
   &__field {
@@ -71,6 +70,11 @@
     font-weight: 500;
   }
 
+  &__hint {
+    font-size: 0.75rem;
+    color: #6e7681;
+  }
+
   &__input {
     background: #161b22;
     border: 1px solid #30363d;
@@ -80,22 +84,6 @@
     font-size: 0.9rem;
     outline: none;
     transition: border-color 0.2s;
-    width: 100%;
-    box-sizing: border-box;
-
-    &:focus { border-color: #58a6ff; }
-    &--sm { max-width: 180px; }
-  }
-
-  &__select {
-    background: #161b22;
-    border: 1px solid #30363d;
-    color: #f0f6fc;
-    padding: 0.6rem 0.875rem;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    outline: none;
-    cursor: pointer;
     width: 100%;
     box-sizing: border-box;
 
@@ -127,20 +115,25 @@
     font-size: 0.875rem;
     color: #c9d1d9;
     cursor: pointer;
+    padding-bottom: 0.1rem;
 
     input[type="checkbox"] { cursor: pointer; accent-color: #58a6ff; }
   }
 
-  &__cover-preview {
-    width: 80px;
-    border-radius: 4px;
-    object-fit: cover;
-    aspect-ratio: 3/4;
-    border: 1px solid #30363d;
+  &__icon-preview {
+    img {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      border-radius: 10px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      padding: 6px;
+    }
   }
 
-  /* Досягнення */
-  &__ach-card {
+  /* Нотатки */
+  &__note-card {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -150,7 +143,7 @@
     border-radius: 6px;
   }
 
-  &__ach-header {
+  &__note-header {
     display: flex;
     justify-content: space-between;
     align-items: center;

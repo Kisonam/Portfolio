@@ -51,10 +51,10 @@ export const routes: Routes = [
     canActivate: [pageVisibilityGuard]
   },
 
-  /** Сторінка ігор */
+  /** Сторінка інструментів */
   {
-    path: 'games',
-    loadComponent: () => import('./pages/games/games.component').then(m => m.GamesComponent),
+    path: 'tools',
+    loadComponent: () => import('./pages/tools/tools.component').then(m => m.ToolsComponent),
     canActivate: [pageVisibilityGuard]
   },
 
@@ -93,17 +93,17 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
 
-  /** Нова гра */
+  /** Новий інструмент */
   {
-    path: 'admin/game/new',
-    loadComponent: () => import('./pages/admin/game-form/game-form.component').then(m => m.GameFormComponent),
+    path: 'admin/tool/new',
+    loadComponent: () => import('./pages/admin/tool-form/tool-form.component').then(m => m.ToolFormComponent),
     canActivate: [authGuard]
   },
 
-  /** Редагування гри */
+  /** Редагування інструменту */
   {
-    path: 'admin/game/:id',
-    loadComponent: () => import('./pages/admin/game-form/game-form.component').then(m => m.GameFormComponent),
+    path: 'admin/tool/:id',
+    loadComponent: () => import('./pages/admin/tool-form/tool-form.component').then(m => m.ToolFormComponent),
     canActivate: [authGuard]
   },
 

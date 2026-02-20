@@ -1,0 +1,100 @@
+<div class="tool-form">
+  <a class="tool-form__back" (click)="goBack()">{{ i18n.t('toolForm.back') }}</a>
+  <h1 class="tool-form__title">{{ isEdit ? i18n.t('toolForm.editTitle') : i18n.t('toolForm.newTitle') }}</h1>
+
+  <div class="tool-form__body">
+    <!-- Основна інформація -->
+    <div class="tool-form__section">
+      <h2 class="tool-form__section-title">{{ i18n.t('toolForm.general') }}</h2>
+
+      <div class="tool-form__row">
+        <div class="tool-form__field">
+          <label class="tool-form__label">{{ i18n.t('toolForm.name') }} *</label>
+          <input class="tool-form__input" type="text" [(ngModel)]="form.name" placeholder="VS Code, Figma, Notion..." />
+        </div>
+        <div class="tool-form__field">
+          <label class="tool-form__label">{{ i18n.t('toolForm.category') }}</label>
+          <input class="tool-form__input" type="text" [(ngModel)]="form.category" placeholder="Editor, Design, Productivity..." />
+        </div>
+      </div>
+
+      <div class="tool-form__row">
+        <div class="tool-form__field">
+          <label class="tool-form__label">{{ i18n.t('toolForm.icon') }}</label>
+          <input class="tool-form__input" type="url" [(ngModel)]="form.icon" placeholder="https://..." />
+          <span class="tool-form__hint">{{ i18n.t('toolForm.iconHint') }}</span>
+        </div>
+        <div class="tool-form__field">
+          <label class="tool-form__label">{{ i18n.t('toolForm.websiteUrl') }}</label>
+          <input class="tool-form__input" type="url" [(ngModel)]="form.websiteUrl" placeholder="https://code.visualstudio.com" />
+        </div>
+      </div>
+
+      @if (form.icon) {
+        <div class="tool-form__icon-preview">
+          <img [src]="form.icon" alt="icon preview" />
+        </div>
+      }
+
+      <div class="tool-form__row">
+        <div class="tool-form__field">
+          <label class="tool-form__label">{{ i18n.t('toolForm.hoursUsed') }}</label>
+          <input class="tool-form__input" type="number" [(ngModel)]="form.hoursUsed" min="0" step="1" />
+        </div>
+        <div class="tool-form__checkbox">
+          <input type="checkbox" id="pinned" [(ngModel)]="form.pinned" />
+          <label for="pinned">{{ i18n.t('toolForm.pinned') }}</label>
+        </div>
+      </div>
+
+      <div class="tool-form__field">
+        <label class="tool-form__label">{{ i18n.t('toolForm.purpose') }}</label>
+        <textarea class="tool-form__textarea" [(ngModel)]="form.purpose" [placeholder]="i18n.t('toolForm.purposePlaceholder')" rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- Нотатки / результати -->
+    <div class="tool-form__section">
+      <h2 class="tool-form__section-title">{{ i18n.t('toolForm.notes') }}</h2>
+      <p class="tool-form__hint-text">{{ i18n.t('toolForm.notesHint') }}</p>
+
+      @for (note of form.notes; track $index; let i = $index) {
+        <div class="tool-form__note-card">
+          <div class="tool-form__note-header">
+            <span>{{ i18n.t('toolForm.note') }} {{ i + 1 }}</span>
+            <button class="tool-form__remove-btn" (click)="removeNote(i)">✕</button>
+          </div>
+          <div class="tool-form__field">
+            <label class="tool-form__label">{{ i18n.t('toolForm.noteTitle') }}</label>
+            <input class="tool-form__input" type="text" [(ngModel)]="note.title" [placeholder]="i18n.t('toolForm.noteTitlePlaceholder')" />
+          </div>
+          <div class="tool-form__field">
+            <label class="tool-form__label">{{ i18n.t('toolForm.noteDesc') }}</label>
+            <textarea class="tool-form__textarea" [(ngModel)]="note.description" [placeholder]="i18n.t('toolForm.noteDescPlaceholder')" rows="2"></textarea>
+          </div>
+        </div>
+      }
+
+      <button class="tool-form__add-btn" (click)="addNote()">+ {{ i18n.t('toolForm.addNote') }}</button>
+    </div>
+
+    <!-- Footer -->
+    <div class="tool-form__footer">
+      @if (saveMessage) {
+        <div class="tool-form__message" [class.tool-form__message--error]="saveMessage === i18n.t('toolForm.error')">
+          {{ saveMessage }}
+        </div>
+      }
+      <div class="tool-form__footer-actions">
+        @if (isEdit) {
+          <button class="tool-form__delete-btn" (click)="deleteTool()" [disabled]="deleting">
+            {{ deleting ? '...' : i18n.t('toolForm.delete') }}
+          </button>
+        }
+        <button class="tool-form__save-btn" (click)="save()" [disabled]="saving">
+          {{ saving ? i18n.t('toolForm.saving') : i18n.t('toolForm.save') }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

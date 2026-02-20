@@ -31,7 +31,7 @@ export class SettingsService {
             blog: true,
             projects: true,
             about: true,
-            games: true
+            tools: true
           },
           updatedAt: new Date()
         };
@@ -46,7 +46,7 @@ export class SettingsService {
           blog: true,
           projects: true,
           about: true,
-          games: true
+          tools: true
         },
         updatedAt: new Date()
       });
