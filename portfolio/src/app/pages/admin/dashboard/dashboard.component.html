@@ -189,7 +189,7 @@
               }
               <div class="dashboard__profile-meta">
                 <div class="dashboard__profile-name">{{ getProfileName(profile) }}</div>
-                <div class="dashboard__profile-title">{{ profile.translations?.uk?.title || profile.translations?.en?.title || '—' }}</div>
+                <div class="dashboard__profile-title">{{ getProfileTitle(profile) }}</div>
               </div>
               @if (profile.active) {
                 <span class="dashboard__badge dashboard__badge--active">✓ Активний</span>

@@ -133,4 +133,8 @@ export class DashboardComponent implements OnInit {
   getProfileName(profile: AboutContent): string {
     return profile.profileName || profile.translations?.uk?.name || profile.translations?.en?.name || profile.id || 'Профіль';
   }
+
+  getProfileTitle(profile: AboutContent): string {
+    return (profile.translations as any)?.uk?.title || (profile.translations as any)?.en?.title || '—';
+  }
 }
