@@ -197,26 +197,192 @@
     border: 1px solid transparent;
     text-decoration: none;
     transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
 
     &--edit {
       background: rgba(56, 139, 253, 0.1);
       color: #58a6ff;
       border-color: rgba(56, 139, 253, 0.3);
-
-      &:hover {
-        background: rgba(56, 139, 253, 0.2);
-      }
+      &:hover { background: rgba(56, 139, 253, 0.2); }
     }
 
     &--delete {
       background: rgba(248, 81, 73, 0.1);
       color: #f85149;
       border-color: rgba(248, 81, 73, 0.3);
-
-      &:hover {
-        background: rgba(248, 81, 73, 0.2);
-      }
+      &:hover { background: rgba(248, 81, 73, 0.2); }
     }
+
+    &--save {
+      background: rgba(35, 134, 54, 0.15);
+      color: #3fb950;
+      border-color: rgba(35, 134, 54, 0.3);
+      &:hover:not(:disabled) { background: rgba(35, 134, 54, 0.25); }
+      &:disabled { opacity: 0.5; cursor: not-allowed; }
+    }
+
+    &--cancel {
+      background: rgba(139, 148, 158, 0.1);
+      color: #8b949e;
+      border-color: rgba(139, 148, 158, 0.3);
+      &:hover { background: rgba(139, 148, 158, 0.2); }
+    }
+
+    &--activate {
+      background: rgba(56, 139, 253, 0.15);
+      color: #58a6ff;
+      border-color: rgba(56, 139, 253, 0.3);
+      &:hover:not(:disabled) { background: rgba(56, 139, 253, 0.25); }
+      &:disabled { opacity: 0.5; cursor: not-allowed; }
+    }
+  }
+
+  /* Inline редагування */
+  &__row--editing td {
+    background: rgba(56, 139, 253, 0.04);
+  }
+
+  &__inline-input {
+    background: #161b22;
+    border: 1px solid #30363d;
+    color: #f0f6fc;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    &:focus { border-color: #58a6ff; }
+
+    &--number { width: 80px; }
+  }
+
+  /* Tool icon */
+  &__tool-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  &__cell-tool {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  &__cell-category { color: #8b949e; font-size: 0.875rem; }
+  &__cell-hours { color: #58a6ff; font-weight: 600; font-size: 0.875rem; }
+
+  /* Badge variants */
+  &__badge {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+
+    &--published {
+      background: rgba(35, 134, 54, 0.15);
+      color: #3fb950;
+    }
+    &--draft {
+      background: rgba(139, 148, 158, 0.15);
+      color: #8b949e;
+    }
+    &--active {
+      background: rgba(35, 134, 54, 0.15);
+      color: #3fb950;
+      border: 1px solid rgba(35, 134, 54, 0.3);
+    }
+    &--pinned {
+      background: transparent;
+      color: #e3b341;
+      padding: 0 4px;
+    }
+  }
+
+  /* Профілі About */
+  &__profiles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__profile-card {
+    background: #0d1117;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: border-color 0.2s;
+
+    &--active {
+      border-color: #3fb950;
+      background: rgba(35, 134, 54, 0.04);
+    }
+  }
+
+  &__profile-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__profile-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #30363d;
+    flex-shrink: 0;
+  }
+
+  &__profile-avatar-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #161b22;
+    border: 2px solid #30363d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  &__profile-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  &__profile-name {
+    font-weight: 600;
+    color: #f0f6fc;
+    font-size: 0.95rem;
+  }
+
+  &__profile-title {
+    font-size: 0.8rem;
+    color: #8b949e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__profile-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
   }
 
   /* Порожній стан */

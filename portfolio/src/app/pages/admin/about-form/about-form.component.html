@@ -1,6 +1,6 @@
 <div class="about-form">
   <a class="about-form__back" (click)="goBack()">{{ i18n.t('aboutForm.back') }}</a>
-  <h1 class="about-form__title">{{ i18n.t('aboutForm.title') }}</h1>
+  <h1 class="about-form__title">{{ isEdit ? i18n.t('aboutForm.editTitle') : i18n.t('aboutForm.newTitle') }}</h1>
 
   <!-- Мовні вкладки -->
   <div class="about-form__lang-tabs">
@@ -19,6 +19,11 @@
     <!-- Фото та контакти -->
     <div class="about-form__section">
       <h2 class="about-form__section-title">{{ i18n.t('aboutForm.general') }}</h2>
+      <div class="about-form__field">
+        <label class="about-form__label">{{ i18n.t('aboutForm.profileName') }}</label>
+        <input class="about-form__input" type="text" [(ngModel)]="form.profileName" placeholder="Основний, Фріланс, Резюме..." />
+        <span class="about-form__hint">{{ i18n.t('aboutForm.profileNameHint') }}</span>
+      </div>
       <div class="about-form__field">
         <label class="about-form__label">{{ i18n.t('aboutForm.photo') }}</label>
         <input class="about-form__input" type="url" [(ngModel)]="form.photo" [placeholder]="i18n.t('aboutForm.photoPlaceholder')" />
@@ -140,9 +145,16 @@
           {{ saveMessage }}
         </div>
       }
-      <button class="about-form__save-btn" (click)="save()" [disabled]="saving">
-        {{ saving ? i18n.t('aboutForm.saving') : i18n.t('aboutForm.save') }}
-      </button>
+      <div class="about-form__footer-actions">
+        @if (isEdit) {
+          <button class="about-form__delete-btn" (click)="deleteProfile()" [disabled]="deleting">
+            {{ deleting ? '...' : i18n.t('aboutForm.delete') }}
+          </button>
+        }
+        <button class="about-form__save-btn" (click)="save()" [disabled]="saving">
+          {{ saving ? i18n.t('aboutForm.saving') : i18n.t('aboutForm.save') }}
+        </button>
+      </div>
     </div>
   </div>
 </div>

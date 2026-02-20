@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AboutService } from '../../../services/about.service';
 import { I18nService } from '../../../services/i18n.service';
 import { AboutContent, AboutSkillGroup, AboutExperience, AboutEducation } from '../../../models/about.model';
@@ -17,12 +17,16 @@ type Lang = 'uk' | 'pl' | 'en';
 })
 export class AboutFormComponent implements OnInit {
   saving = false;
+  deleting = false;
   saveMessage = '';
+  isEdit = false;
   activeLang: Lang = 'uk';
   langs: Lang[] = ['uk', 'pl', 'en'];
 
   form: AboutContent = {
     photo: '',
+    profileName: '',
+    active: false,
     email: '',
     github: '',
     linkedin: '',
@@ -37,25 +41,30 @@ export class AboutFormComponent implements OnInit {
     education: []
   };
 
-  // Тимчасові рядки для редагування навичок
   skillsRaw: { category: string; skillsStr: string }[] = [];
 
   constructor(
     public i18n: I18nService,
     private aboutService: AboutService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.aboutService.about$.subscribe(about => {
-      if (about) {
-        this.form = JSON.parse(JSON.stringify(about));
-        this.skillsRaw = (this.form.skills || []).map(g => ({
-          category: g.category,
-          skillsStr: g.skills.join(', ')
-        }));
-      }
-    });
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEdit = true;
+      this.aboutService.profiles$.subscribe(profiles => {
+        const profile = profiles.find(p => p.id === id);
+        if (profile) {
+          this.form = JSON.parse(JSON.stringify(profile));
+          this.skillsRaw = (this.form.skills || []).map(g => ({
+            category: g.category,
+            skillsStr: g.skills.join(', ')
+          }));
+        }
+      });
+    }
   }
 
   addSkillGroup(): void {
@@ -86,7 +95,6 @@ export class AboutFormComponent implements OnInit {
     this.saving = true;
     this.saveMessage = '';
     try {
-      // Конвертуємо skillsRaw назад у масив
       this.form.skills = this.skillsRaw
         .filter(g => g.category.trim())
         .map(g => ({
@@ -94,14 +102,30 @@ export class AboutFormComponent implements OnInit {
           skills: g.skillsStr.split(',').map(s => s.trim()).filter(Boolean)
         }));
 
-      await this.aboutService.saveAbout(this.form);
+      await this.aboutService.saveProfile(this.form);
       this.saveMessage = this.i18n.t('aboutForm.saved');
-      setTimeout(() => this.saveMessage = '', 3000);
+      setTimeout(() => {
+        this.saveMessage = '';
+        this.router.navigate(['/admin/dashboard'], { queryParams: { tab: 'about' } });
+      }, 1500);
     } catch (e) {
       console.error(e);
       this.saveMessage = this.i18n.t('aboutForm.error');
     } finally {
       this.saving = false;
+    }
+  }
+
+  async deleteProfile(): Promise<void> {
+    if (!this.form.id || !confirm('Видалити цей профіль?')) return;
+    this.deleting = true;
+    try {
+      await this.aboutService.deleteProfile(this.form.id);
+      this.router.navigate(['/admin/dashboard'], { queryParams: { tab: 'about' } });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      this.deleting = false;
     }
   }
 

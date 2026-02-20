@@ -86,9 +86,16 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
 
-  /** Редагування сторінки "Про мене" */
+  /** Новий профіль "Про мене" */
   {
-    path: 'admin/about',
+    path: 'admin/about/new',
+    loadComponent: () => import('./pages/admin/about-form/about-form.component').then(m => m.AboutFormComponent),
+    canActivate: [authGuard]
+  },
+
+  /** Редагування профілю "Про мене" */
+  {
+    path: 'admin/about/:id',
     loadComponent: () => import('./pages/admin/about-form/about-form.component').then(m => m.AboutFormComponent),
     canActivate: [authGuard]
   },

@@ -110,6 +110,11 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     'aboutForm.institution': 'Навчальний заклад',
     'aboutForm.institutionPlaceholder': 'Університет...',
     'aboutForm.addEducation': 'Додати освіту',
+    'aboutForm.profileName': 'Назва профілю',
+    'aboutForm.profileNameHint': 'Інтерна назва для розрізнення профілів',
+    'aboutForm.newTitle': 'Новий профіль',
+    'aboutForm.editTitle': 'Редагувати профіль',
+    'aboutForm.delete': 'Видалити профіль',
     'aboutForm.save': 'Зберегти',
     'aboutForm.saving': 'Збереження...',
     'aboutForm.saved': 'Збережено!',
@@ -117,6 +122,10 @@ const TRANSLATIONS: Record<Lang, Translations> = {
 
     // Admin about link
     'admin.about': 'Про мене',
+    'admin.newTool': 'Новий інструмент',
+    'admin.noTools': 'Інструментів поки немає.',
+    'admin.newProfile': 'Новий профіль',
+    'admin.noProfiles': 'Профілів поки немає.',
 
     // Home
     'home.title': 'Вітаю у моєму портфоліо',
@@ -371,6 +380,11 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     'aboutForm.institution': 'Uczelnia',
     'aboutForm.institutionPlaceholder': 'Uniwersytet...',
     'aboutForm.addEducation': 'Dodaj wykształcenie',
+    'aboutForm.profileName': 'Nazwa profilu',
+    'aboutForm.profileNameHint': 'Wewnętrzna nazwa do rozróżnienia profili',
+    'aboutForm.newTitle': 'Nowy profil',
+    'aboutForm.editTitle': 'Edytuj profil',
+    'aboutForm.delete': 'Usuń profil',
     'aboutForm.save': 'Zapisz',
     'aboutForm.saving': 'Zapisywanie...',
     'aboutForm.saved': 'Zapisano!',
@@ -378,6 +392,10 @@ const TRANSLATIONS: Record<Lang, Translations> = {
 
     // Admin about link
     'admin.about': 'O mnie',
+    'admin.newTool': 'Nowe narzędzie',
+    'admin.noTools': 'Brak narzędzi.',
+    'admin.newProfile': 'Nowy profil',
+    'admin.noProfiles': 'Brak profili.',
     'nav.projects': 'Projekty',
 
     // Home
@@ -634,6 +652,11 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     'aboutForm.institution': 'Institution',
     'aboutForm.institutionPlaceholder': 'University...',
     'aboutForm.addEducation': 'Add education',
+    'aboutForm.profileName': 'Profile Name',
+    'aboutForm.profileNameHint': 'Internal name to distinguish profiles',
+    'aboutForm.newTitle': 'New Profile',
+    'aboutForm.editTitle': 'Edit Profile',
+    'aboutForm.delete': 'Delete Profile',
     'aboutForm.save': 'Save',
     'aboutForm.saving': 'Saving...',
     'aboutForm.saved': 'Saved!',
@@ -641,6 +664,10 @@ const TRANSLATIONS: Record<Lang, Translations> = {
 
     // Admin about link
     'admin.about': 'About Me',
+    'admin.newTool': 'New Tool',
+    'admin.noTools': 'No tools yet.',
+    'admin.newProfile': 'New Profile',
+    'admin.noProfiles': 'No profiles yet.',
 
     // Home
     'home.title': 'Welcome to my portfolio',

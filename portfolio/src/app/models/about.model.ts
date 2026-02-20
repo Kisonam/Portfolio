@@ -25,6 +25,8 @@ export interface AboutEducation {
 
 export interface AboutContent {
   id?: string;
+  profileName?: string;
+  active?: boolean;
   photo: string;
   email?: string;
   github?: string;
